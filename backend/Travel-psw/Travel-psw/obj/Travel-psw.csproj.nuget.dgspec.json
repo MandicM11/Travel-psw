@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\Travel-psw\\Travel-psw.csproj": {}
+    "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Travel-psw.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\Travel-psw\\Travel-psw.csproj": {
+    "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Travel-psw.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\Travel-psw\\Travel-psw.csproj",
+        "projectUniqueName": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Travel-psw.csproj",
         "projectName": "Travel-psw",
-        "projectPath": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\Travel-psw\\Travel-psw.csproj",
+        "projectPath": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Travel-psw.csproj",
         "packagesPath": "C:\\Users\\Mirko\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\Travel-psw\\obj\\",
+        "outputPath": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Mirko\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -46,6 +46,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.7, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"
