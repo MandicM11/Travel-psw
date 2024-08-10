@@ -1,14 +1,29 @@
-﻿namespace Travel_psw.Models
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace Travel_psw.Models
 {
     public class User
     {
+        [Key] 
         public int Id { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public List<string> Interests { get; set; }
-    }
 
+        [Required] 
+        public string Username { get; set; }
+
+        [Required]
+        public string Password { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        [EmailAddress] 
+        public string Email { get; set; }
+
+        public List<string> Interests { get; set; } 
+    }
 }

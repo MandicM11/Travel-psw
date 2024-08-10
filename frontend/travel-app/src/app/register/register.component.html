@@ -1,0 +1,44 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <label for="username">Username:</label>
+    <input id="username" formControlName="username" />
+    <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
+      Username is required.
+    </div>
+  
+    <label for="password">Password:</label>
+    <input id="password" type="password" formControlName="password" />
+    <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+      Password is required.
+    </div>
+  
+    <label for="firstName">First Name:</label>
+    <input id="firstName" formControlName="firstName" />
+    <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched">
+      First name is required.
+    </div>
+  
+    <label for="lastName">Last Name:</label>
+    <input id="lastName" formControlName="lastName" />
+    <div *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched">
+      Last name is required.
+    </div>
+  
+    <label for="email">Email:</label>
+    <input id="email" formControlName="email" />
+    <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+      <div *ngIf="registerForm.get('email')?.errors?.['required']">Email is required.</div>
+      <div *ngIf="registerForm.get('email')?.errors?.['email']">Invalid email format.</div>
+    </div>
+  
+    <label for="interests">Interests:</label>
+    <div formArrayName="interests">
+      <div *ngFor="let interest of interests.controls; let i = index">
+        <input [formControlName]="i" />
+        <button type="button" (click)="removeInterest(i)">Remove</button>
+      </div>
+    </div>
+    <button type="button" (click)="addInterest('')">Add Interest</button>
+  
+    <button type="submit">Register</button>
+  </form>
+  
