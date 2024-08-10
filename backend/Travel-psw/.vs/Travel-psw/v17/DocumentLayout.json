@@ -1,0 +1,122 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|c:\\users\\mirko\\source\\repos\\travel-psw\\backend\\travel-psw\\travel-psw\\migrations\\20240810191515_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|solutionrelative:travel-psw\\migrations\\20240810191515_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|c:\\users\\mirko\\source\\repos\\travel-psw\\backend\\travel-psw\\travel-psw\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|solutionrelative:travel-psw\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|c:\\users\\mirko\\source\\repos\\travel-psw\\backend\\travel-psw\\travel-psw\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|solutionrelative:travel-psw\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|c:\\users\\mirko\\source\\repos\\travel-psw\\backend\\travel-psw\\travel-psw\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|solutionrelative:travel-psw\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|c:\\users\\mirko\\source\\repos\\travel-psw\\backend\\travel-psw\\travel-psw\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|solutionrelative:travel-psw\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|c:\\users\\mirko\\source\\repos\\travel-psw\\backend\\travel-psw\\travel-psw\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|solutionrelative:travel-psw\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "20240810191515_InitialCreate.cs",
+              "DocumentMoniker": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Migrations\\20240810191515_InitialCreate.cs",
+              "RelativeDocumentMoniker": "Travel-psw\\Migrations\\20240810191515_InitialCreate.cs",
+              "ToolTip": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Migrations\\20240810191515_InitialCreate.cs",
+              "RelativeToolTip": "Travel-psw\\Migrations\\20240810191515_InitialCreate.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-10T19:15:15.572Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Program.cs",
+              "RelativeDocumentMoniker": "Travel-psw\\Program.cs",
+              "ToolTip": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Program.cs",
+              "RelativeToolTip": "Travel-psw\\Program.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAABQAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-10T19:10:35.976Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\appsettings.json",
+              "RelativeDocumentMoniker": "Travel-psw\\appsettings.json",
+              "ToolTip": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\appsettings.json",
+              "RelativeToolTip": "Travel-psw\\appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-08-10T19:09:35.605Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "Travel-psw\\Data\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "Travel-psw\\Data\\ApplicationDbContext.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-10T19:08:56.048Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "Travel-psw\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "Travel-psw\\Controllers\\AuthController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-10T19:01:28.452Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Travel-psw\\Models\\User.cs",
+              "ToolTip": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Models\\User.cs",
+              "RelativeToolTip": "Travel-psw\\Models\\User.cs",
+              "ViewState": "AQIAAAIAAAAAAAAAAAAxwAgAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-10T19:00:17.537Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
