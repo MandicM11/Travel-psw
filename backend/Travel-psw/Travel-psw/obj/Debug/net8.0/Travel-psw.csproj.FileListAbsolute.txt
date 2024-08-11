@@ -103,3 +103,11 @@ C:\Users\Mirko\source\repos\Travel-psw\backend\Travel-psw\Travel-psw\obj\Debug\n
 C:\Users\Mirko\source\repos\Travel-psw\backend\Travel-psw\Travel-psw\obj\Debug\net8.0\Travel-psw.pdb
 C:\Users\Mirko\source\repos\Travel-psw\backend\Travel-psw\Travel-psw\obj\Debug\net8.0\Travel-psw.genruntimeconfig.cache
 C:\Users\Mirko\source\repos\Travel-psw\backend\Travel-psw\Travel-psw\obj\Debug\net8.0\ref\Travel-psw.dll
+C:\Users\Mirko\source\repos\Travel-psw\backend\Travel-psw\Travel-psw\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\Mirko\source\repos\Travel-psw\backend\Travel-psw\Travel-psw\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Mirko\source\repos\Travel-psw\backend\Travel-psw\Travel-psw\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\Mirko\source\repos\Travel-psw\backend\Travel-psw\Travel-psw\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Mirko\source\repos\Travel-psw\backend\Travel-psw\Travel-psw\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Mirko\source\repos\Travel-psw\backend\Travel-psw\Travel-psw\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Mirko\source\repos\Travel-psw\backend\Travel-psw\Travel-psw\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Mirko\source\repos\Travel-psw\backend\Travel-psw\Travel-psw\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll

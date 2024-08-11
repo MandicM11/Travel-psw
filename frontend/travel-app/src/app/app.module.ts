@@ -9,19 +9,22 @@ import { UserService } from './services/user.service';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
 
 
 const routes: Routes = [
-  // Definiši svoje rute ovde
+  
   { path: 'register', component: RegisterComponent },
-  // Dodaj druge rute prema potrebi
+  { path: 'login', component: LoginComponent },
+  
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
-    NavbarComponent
+    NavbarComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
