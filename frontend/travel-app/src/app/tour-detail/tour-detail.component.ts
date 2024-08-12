@@ -70,4 +70,8 @@ export class TourDetailComponent implements OnInit {
       });
     }
   }
+
+  getImageUrl(imageUrl: string): string {
+    return `http://localhost:5249/uploads/${imageUrl}`;
+  }
 }

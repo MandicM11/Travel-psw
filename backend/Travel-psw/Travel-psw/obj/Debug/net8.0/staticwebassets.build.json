@@ -1,11 +1,39 @@
 {
   "Version": 1,
-  "Hash": "g9wIXX9KK1c8WYPgzzv0nCQsrONKX2pZ4Uq31FxWTOY=",
+  "Hash": "enHtlParN8ZQT8q1hXorazjCFYpzuXpTbdY01EoDW38=",
   "Source": "Travel-psw",
   "BasePath": "_content/Travel-psw",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "Travel-psw\\wwwroot",
+      "Source": "Travel-psw",
+      "ContentRoot": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\wwwroot\\",
+      "BasePath": "_content/Travel-psw",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\wwwroot\\Uploads\\24236252-c739-4701-a487-0794853627c4.png",
+      "SourceId": "Travel-psw",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\wwwroot\\",
+      "BasePath": "_content/Travel-psw",
+      "RelativePath": "Uploads/24236252-c739-4701-a487-0794853627c4.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Uploads\\24236252-c739-4701-a487-0794853627c4.png"
+    }
+  ]
 }

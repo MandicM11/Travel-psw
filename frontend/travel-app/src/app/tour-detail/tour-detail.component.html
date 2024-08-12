@@ -7,7 +7,7 @@
       <h3>{{ kp.title }}</h3>
       <p>{{ kp.description }}</p>
       <p>Location: ({{ kp.latitude }}, {{ kp.longitude }})</p>
-      <img *ngIf="kp.image" [src]="kp.image" alt="Key Point Image" width="100">
+      <img *ngIf="kp.imageUrl" [src]="getImageUrl(kp.imageUrl)" alt="Key Point Image" width="100">
     </li>
   </ul>
 
