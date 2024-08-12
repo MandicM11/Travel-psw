@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Travel_psw.Data;
@@ -12,9 +13,11 @@ using Travel_psw.Data;
 namespace Travel_psw.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240812173521_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,6 +39,7 @@ namespace Travel_psw.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("ImageUrl")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<double>("Latitude")
@@ -136,11 +140,13 @@ namespace Travel_psw.Migrations
 
             modelBuilder.Entity("Travel_psw.Models.KeyPoint", b =>
                 {
-                    b.HasOne("Travel_psw.Models.Tour", null)
+                    b.HasOne("Travel_psw.Models.Tour", "Tour")
                         .WithMany("KeyPoints")
                         .HasForeignKey("TourId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Tour");
                 });
 
             modelBuilder.Entity("Travel_psw.Models.Tour", b =>

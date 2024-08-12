@@ -7,6 +7,8 @@
     public class ApplicationDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Tour> Tours { get; set; }
+        public DbSet<KeyPoint> KeyPoints { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -16,7 +18,12 @@
         {
             modelBuilder.Entity<User>()
                 .Property(u => u.Id)
-                .ValueGeneratedOnAdd(); 
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Tour>()
+                .HasMany(t => t.KeyPoints)
+                .WithOne()
+                .HasForeignKey(kp => kp.TourId);
         }
     }
 }

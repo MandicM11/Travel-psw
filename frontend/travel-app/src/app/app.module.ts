@@ -10,12 +10,21 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
+import { TourDetailComponent } from './tour-detail/tour-detail.component';
+import { AddTourComponent } from './add-tour/add-tour.component';
+import { AddKeyPointComponent } from './add-keypoint/add-keypoint.component';
+import { TourListComponent } from './tour-list/tour-list.component';
 
 
 const routes: Routes = [
   
   { path: 'register', component: RegisterComponent },
+  { path: 'tours', component: TourListComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'tours/:id', component: TourDetailComponent },
+  { path: 'add-tour', component: AddTourComponent },
+  { path: 'tours/:id/add-keypoint', component: AddKeyPointComponent },
+  { path: '', redirectTo: '/add-tour', pathMatch: 'full' }
   
 ];
 
@@ -24,7 +33,11 @@ const routes: Routes = [
     AppComponent,
     RegisterComponent,
     NavbarComponent,
-    LoginComponent
+    LoginComponent,
+    TourDetailComponent,
+    AddTourComponent,
+    AddKeyPointComponent,
+    TourListComponent
   ],
   imports: [
     BrowserModule,

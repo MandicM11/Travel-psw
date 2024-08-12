@@ -1,0 +1,25 @@
+<form (ngSubmit)="addTour()">
+    <label>Title:
+      <input type="text" [(ngModel)]="tour.title" name="title" required />
+    </label>
+    <label>Description:
+      <textarea [(ngModel)]="tour.description" name="description" required></textarea>
+    </label>
+    <label>Difficulty:
+      <input type="text" [(ngModel)]="tour.difficulty" name="difficulty" />
+    </label>
+    <label>Category:
+      <input type="text" [(ngModel)]="tour.category" name="category" />
+    </label>
+    <label>Price:
+      <input type="number" [(ngModel)]="tour.price" name="price" />
+    </label>
+    <label>Status:
+      <select [(ngModel)]="tour.status" name="status">
+        <option value="draft">Draft</option>
+        <option value="published">Published</option>
+      </select>
+    </label>
+    <button type="submit">Add Tour</button>
+  </form>
+  

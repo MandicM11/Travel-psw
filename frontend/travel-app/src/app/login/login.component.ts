@@ -19,10 +19,16 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+  }
 
   onSubmit() {
     if (this.loginForm.valid) {
+      const formData = this.loginForm.value;
       this.userService.loginUser(this.loginForm.value).subscribe(
         response => {
           localStorage.setItem('token', response.token); // Čuvanje tokena u lokalnoj memoriji

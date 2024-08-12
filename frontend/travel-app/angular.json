@@ -78,6 +78,7 @@
             },
             "development": {
               "buildTarget": "travel-app:build:development"
+              
             }
           },
           "defaultConfiguration": "development"
