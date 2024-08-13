@@ -35,18 +35,45 @@ public class ToursController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
+    [HttpGet]
+    public async Task<IActionResult> GetTours([FromQuery] TourStatus? status = null)
+    {
+        var tours = await _tourService.GetToursByStatusAsync(status);
+        return Ok(tours);
+    }
 
 
 
-
-
-
-    [HttpPost("{tourId}/publish")]
+    [HttpPut("{tourId}/publish")]
     public async Task<IActionResult> PublishTour(int tourId)
     {
-        await _tourService.PublishTour(tourId);
-        return NoContent();
+        try
+        {
+            await _tourService.PublishTour(tourId);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
     }
+
+
+
+    [HttpPut("{tourId}/archive")]
+    public async Task<IActionResult> ArchiveTour(int tourId)
+    {
+        try
+        {
+            await _tourService.ArchiveTourAsync(tourId);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetTourById(int id)

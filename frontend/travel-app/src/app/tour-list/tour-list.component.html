@@ -1,6 +1,27 @@
 <h1>Tours</h1>
+
+<div class="mb-3">
+  <label for="statusFilter" class="form-label">Filter by Status:</label>
+  <select id="statusFilter" class="form-select" (change)="onStatusChange($event)">
+    <option value="">All</option>
+    <option value="draft">Draft</option>
+    <option value="published">Published</option>
+    <option value="archived">Archived</option>
+  </select>
+</div>
+
+<div *ngIf="successMessage" class="alert alert-success mt-3" role="alert">
+  {{ successMessage }}
+</div>
+
+<div *ngIf="errorMessage" class="alert alert-danger mt-3" role="alert">
+  {{ errorMessage }}
+</div>
+
 <ul>
   <li *ngFor="let tour of tours">
     <a [routerLink]="['/tours', tour.id]">{{ tour.title }}</a>
+    <button (click)="publishTour(tour.id)" class="btn btn-success ml-2">Publish</button>
+    <button (click)="archiveTour(tour.id)" class="btn btn-warning ml-2">Archive</button>
   </li>
 </ul>

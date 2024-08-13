@@ -27,10 +27,19 @@ namespace Travel_psw.Models
         public decimal Price { get; set; }
 
         [Required]
-        public string Status { get; set; } = "draft"; // draft ili published
+        public TourStatus Status { get; set; } = TourStatus.Draft; // draft ili published
 
         public List<KeyPoint> KeyPoints { get; set; } = new List<KeyPoint>();
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
+
+    public enum TourStatus
+    {
+        Draft,
+        Published,
+        Archived
+    }
+
+
 }

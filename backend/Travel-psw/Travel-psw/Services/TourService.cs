@@ -43,7 +43,7 @@ public class TourService
     {
         var tour = await _context.Tours.FindAsync(tourId);
 
-        if (tour == null || tour.Status == "published")
+        if (tour == null || tour.Status == TourStatus.Published)
             throw new InvalidOperationException("Tour not found or already published");
 
         if (image != null && image.Length > 0)
@@ -87,13 +87,38 @@ public class TourService
     {
         var tour = await _context.Tours.Include(t => t.KeyPoints).FirstOrDefaultAsync(t => t.Id == tourId);
 
-        if (tour == null || tour.Status == "published")
+        if (tour == null || tour.Status == TourStatus.Published)
             throw new InvalidOperationException("Tour not found or already published");
 
         if (tour.KeyPoints.Count < 2)
             throw new InvalidOperationException("Tour must have at least two key points to be published");
 
-        tour.Status = "published";
+        tour.Status = TourStatus.Published;
         await _context.SaveChangesAsync();
+    }
+    public async Task ArchiveTourAsync(int tourId)
+    {
+        var tour = await _context.Tours.FindAsync(tourId);
+
+        if (tour == null)
+            throw new InvalidOperationException("Tour not found");
+
+        if (tour.Status == TourStatus.Archived)
+            throw new InvalidOperationException("Tour is already archived");
+
+        tour.Status = TourStatus.Archived;
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<Tour>> GetToursByStatusAsync(TourStatus? status = null)
+    {
+        var query = _context.Tours.Include(t => t.KeyPoints).AsQueryable();
+
+        if (status.HasValue)
+        {
+            query = query.Where(t => t.Status == status.Value);
+        }
+
+        return await query.ToListAsync();
     }
 }

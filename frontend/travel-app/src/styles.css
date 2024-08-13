@@ -1,1 +1,55 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    background-color: #f8f9fa; /* Svetla pozadina */
+    color: #343a40; /* Teks je tamno siv */
+    padding-top: 56px; /* Ovo osigurava da sadržaj ne bude skriven ispod navigacije */
+  }
+  
+  /* Navbar styles */
+  .navbar {
+    background-color: #ffffff; /* Pozadina navbar-a */
+    border-bottom: 1px solid #dee2e6; /* Lagani okvir ispod navbar-a */
+  }
+  
+  .navbar-nav {
+    display: flex; /* Prikazuje nav-item u jednom redu */
+    flex-direction: row; /* Osigurava da su stavke u horizontalnom redosledu */
+  }
+  
+  .navbar-nav .nav-item {
+    margin-left: 1rem; /* Razmak između stavki */
+  }
+  
+  .navbar-nav .nav-link {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    color: #007bff; /* Boja linkova */
+  }
+  
+  .navbar-nav .nav-link:hover {
+    color: #0056b3; /* Tamnija boja kada se hoveruje */
+  }
+  
+  /* Toggler button for mobile view */
+  .navbar-toggler {
+    border: none;
+  }
+  
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 30 30'%3E%3Cpath stroke='%23333' stroke-width='2' d='M5 7h20M5 15h20M5 23h20'/%3E%3C/svg%3E");
+  }
+  
+  /* Adjustments for navbar on mobile */
+  @media (max-width: 991.98px) {
+    .navbar-nav {
+      margin-top: 0.5rem;
+    }
+  
+    .navbar-nav .nav-item {
+      margin-left: 0;
+      margin-bottom: 0.5rem; /* Razmak između stavki na manjim ekranima */
+    }
+  }
+  
