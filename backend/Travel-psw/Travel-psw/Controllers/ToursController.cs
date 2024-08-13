@@ -35,6 +35,23 @@ public class ToursController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
+
+    [HttpGet("{tourId}/keypoints")]
+    public async Task<IActionResult> GetKeyPoints(int tourId)
+    {
+        try
+        {
+            var keyPoints = await _tourService.GetKeyPointsAsync(tourId);
+            return Ok(keyPoints);
+        }
+        catch (Exception ex)
+        {
+            // Obavi odgovarajuće obrade greške
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
+
     [HttpGet]
     public async Task<IActionResult> GetTours([FromQuery] TourStatus? status = null)
     {

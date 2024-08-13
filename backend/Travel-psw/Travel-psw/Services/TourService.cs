@@ -121,4 +121,21 @@ public class TourService
 
         return await query.ToListAsync();
     }
+
+    public async Task<IEnumerable<KeyPoint>> GetKeyPointsAsync(int tourId)
+    {
+        var tour = await _context.Tours
+            .Include(t => t.KeyPoints)
+            .FirstOrDefaultAsync(t => t.Id == tourId);
+
+        if (tour == null)
+        {
+            throw new InvalidOperationException("Tour not found");
+        }
+
+        return tour.KeyPoints;
+    }
+
+
+
 }

@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\Uploads\\24236252-c739-4701-a487-0794853627c4.png"
     },
     {
+      "Id": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\wwwroot\\Uploads\\55c0a022-958b-4dcb-9480-333ac74c96a9.png",
+      "PackagePath": "staticwebassets\\Uploads\\55c0a022-958b-4dcb-9480-333ac74c96a9.png"
+    },
+    {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Travel-psw.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

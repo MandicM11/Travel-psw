@@ -1,6 +1,8 @@
+<!-- tour-detail.component.html -->
 <div *ngIf="tour">
   <h1>{{ tour.title }}</h1>
   <p>{{ tour.description }}</p>
+
   <h2>Key Points</h2>
   <ul>
     <li *ngFor="let kp of tour.keyPoints">
@@ -34,4 +36,5 @@
       <button type="submit">Add</button>
     </form>
   </div>
+  <app-tour-map [keyPoints]="tour.keyPoints"></app-tour-map>
 </div>

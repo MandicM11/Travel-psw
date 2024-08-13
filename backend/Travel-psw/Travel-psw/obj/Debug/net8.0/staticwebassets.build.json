@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "enHtlParN8ZQT8q1hXorazjCFYpzuXpTbdY01EoDW38=",
+  "Hash": "VlA4VV5mI54elC93taJfvD5LaXHTQKhjw7sh5pGJKkY=",
   "Source": "Travel-psw",
   "BasePath": "_content/Travel-psw",
   "Mode": "Default",
@@ -34,6 +34,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Uploads\\24236252-c739-4701-a487-0794853627c4.png"
+    },
+    {
+      "Identity": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\wwwroot\\Uploads\\55c0a022-958b-4dcb-9480-333ac74c96a9.png",
+      "SourceId": "Travel-psw",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\wwwroot\\",
+      "BasePath": "_content/Travel-psw",
+      "RelativePath": "Uploads/55c0a022-958b-4dcb-9480-333ac74c96a9.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Uploads\\55c0a022-958b-4dcb-9480-333ac74c96a9.png"
     }
   ]
 }

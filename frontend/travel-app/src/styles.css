@@ -1,4 +1,5 @@
 /* Global styles */
+@import "leaflet/dist/leaflet.css";
 body {
     font-family: 'Roboto', sans-serif;
     line-height: 1.6;
@@ -53,3 +54,14 @@ body {
     }
   }
   
+  #map {
+    height: 100%; /* Osigurajte da mapa ima pravilnu visinu */
+    width: 100%;  /* Osigurajte da mapa ima pravilnu širinu */
+    position: relative; /* Dodajte relativnu poziciju ako je potrebno */
+  }
+
+
+  .leaflet-container {
+    width: 100%;
+    height: 60vh;
+    }

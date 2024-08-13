@@ -17,6 +17,7 @@ import { TourListComponent } from './tour-list/tour-list.component';
 import { TourMapComponent } from './tour-map/tour-map.component';
 
 
+
 const routes: Routes = [
   
   { path: 'register', component: RegisterComponent },
@@ -41,6 +42,7 @@ const routes: Routes = [
     AddKeyPointComponent,
     TourListComponent,
     TourMapComponent
+    
   ],
   imports: [
     BrowserModule,
