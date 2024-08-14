@@ -12,6 +12,8 @@ export class TourMapComponent implements OnChanges {
   @Input() keyPoints: any[] = [];
   map: L.Map | undefined;
   isBrowser: boolean;
+  baseUrl: string = 'http://localhost:5249/uploads'; // Osnovni URL za slike
+  imageUrls: { [key: string]: string } = {}; // Mapiranje za slike
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -19,6 +21,7 @@ export class TourMapComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['keyPoints'] && this.keyPoints.length) {
+      console.log('keyPoints:', this.keyPoints);  // Provera podataka
       if (this.isBrowser) {
         this.updateMap();
       }
@@ -33,6 +36,41 @@ export class TourMapComponent implements OnChanges {
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 19,
         }).addTo(this.map);
+
+        // Generiši URL-ove za slike u `keyPoints`
+        this.keyPoints.forEach(kp => {
+          if (kp.imageUrl) {
+            this.imageUrls[kp.id] = `${this.baseUrl}/${kp.imageUrl}`;
+          }
+        });
+
+        // Dodaj markere nakon inicijalizacije mape
+        this.addMarkers();
+      });
+    }
+  }
+
+  addMarkers(): void {
+    if (this.isBrowser && this.map) {
+      import('leaflet').then(L => {
+        this.map!.eachLayer((layer: L.Layer) => {
+          if (layer instanceof L.Marker) {
+            this.map!.removeLayer(layer);
+          }
+        });
+
+        this.keyPoints.forEach(kp => {
+          const icon = L.icon({
+            iconUrl: this.imageUrls[kp.id] || 'assets/markers/marker-icon.png', // Koristi generisani URL za sliku
+            iconSize: [38, 38], // Veličina ikone
+            iconAnchor: [22, 94], // Tačka sidrenja ikone
+            popupAnchor: [-3, -76] // Tačka sidrenja popup-a u odnosu na ikonu
+          });
+
+          L.marker([kp.latitude, kp.longitude], { icon })
+            .addTo(this.map!)
+            .bindPopup(`<b>${kp.title}</b><br>${kp.description}`);
+        });
       });
     }
   }
@@ -41,56 +79,7 @@ export class TourMapComponent implements OnChanges {
     if (!this.map) {
       this.initMap();
     } else {
-      if (this.isBrowser) {
-        import('leaflet').then(L => {
-          this.map!.eachLayer((layer: L.Layer) => {
-            if (layer instanceof L.Marker) {
-              this.map!.removeLayer(layer);
-            }
-          });
-
-          // Load all images asynchronously and create markers once they are loaded
-          const loadImage = (imageFile: File) => {
-            return new Promise<string>((resolve, reject) => {
-              const reader = new FileReader();
-              reader.onload = (e: any) => resolve(e.target.result);
-              reader.onerror = reject;
-              reader.readAsDataURL(imageFile);
-            });
-          };
-
-          const imagePromises = this.keyPoints.map(async (kp: any) => {
-            if (kp.image instanceof File) {
-              // Load the image and return its URL
-              const imageUrl = await loadImage(kp.image);
-              return { ...kp, imageUrl };
-            } else {
-              // Return keyPoint as is if no image file is provided
-              return kp;
-            }
-          });
-
-          Promise.all(imagePromises).then(keyPointsWithImages => {
-            keyPointsWithImages.forEach(kp => {
-              // Define the custom icon with image URL
-              const icon = L.icon({
-                iconUrl: /*kp.imageUrl ||*/  'assets/markers/marker-icon.png', // Use the image URL from the keyPoint
-                iconSize: [38, 38], // Size of the icon
-                iconAnchor: [22, 94], // Anchor point of the icon (where the marker points to)
-                popupAnchor: [-3, -76] // Anchor point of the popup relative to the icon
-              });
-
-              // Create a marker with the custom icon
-              //L.marker([kp.latitude, kp.longitude], { icon })
-              L.marker([48.8584, 2.2945], { icon })
-                .addTo(this.map!)
-                .bindPopup(`<b>${kp.title}</b><br>${kp.description}`);
-            });
-          });
-        });
-      }
+      this.addMarkers();
     }
   }
-
-  
 }
