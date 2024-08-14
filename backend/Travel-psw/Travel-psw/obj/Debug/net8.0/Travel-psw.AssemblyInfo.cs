@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Travel-psw")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+38083c8aa398ed8bf2420e06f3692b672698d639")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b589fe24bc7dd854bec10f9088a5e242a7752db9")]
 [assembly: System.Reflection.AssemblyProductAttribute("Travel-psw")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Travel-psw")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -21,6 +21,10 @@ export class TourDetailComponent implements OnInit {
 
   constructor(private tourService: TourService, private route: ActivatedRoute) {}
 
+  formatDecimal(value: number): string {
+    return value.toString().replace('.', ',');
+  }
+
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const id = +params['id'];
@@ -42,13 +46,19 @@ export class TourDetailComponent implements OnInit {
     }
   }
 
+  
+
   addKeyPoint(): void {
     if (this.tour && this.newKeyPoint.title && this.newKeyPoint.description) {
+
+      const formattedLatitude = this.formatDecimal(this.newKeyPoint.latitude);
+      const formattedLongitude = this.formatDecimal(this.newKeyPoint.longitude);
+
       const formData = new FormData();
       formData.append('title', this.newKeyPoint.title);
       formData.append('description', this.newKeyPoint.description);
-      formData.append('latitude', this.newKeyPoint.latitude.toString());
-      formData.append('longitude', this.newKeyPoint.longitude.toString());
+      formData.append('latitude', formattedLatitude); 
+      formData.append('longitude', formattedLongitude); 
       if (this.newKeyPoint.image) {
         formData.append('image', this.newKeyPoint.image);
       }
@@ -61,8 +71,8 @@ export class TourDetailComponent implements OnInit {
           this.newKeyPoint = {
             title: '',
             description: '',
-            latitude: 0.0,
-            longitude: 0.0,
+            latitude: 0,
+            longitude: 0,
             image: null,
             tourId: null
           };
