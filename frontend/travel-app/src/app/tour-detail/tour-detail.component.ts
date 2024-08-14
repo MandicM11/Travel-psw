@@ -61,8 +61,8 @@ export class TourDetailComponent implements OnInit {
           this.newKeyPoint = {
             title: '',
             description: '',
-            latitude: 0,
-            longitude: 0,
+            latitude: 0.0,
+            longitude: 0.0,
             image: null,
             tourId: null
           };

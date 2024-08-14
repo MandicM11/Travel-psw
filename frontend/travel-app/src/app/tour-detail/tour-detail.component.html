@@ -25,10 +25,10 @@
       <textarea id="description" [(ngModel)]="newKeyPoint.description" name="description" required></textarea>
       
       <label for="latitude">Latitude:</label>
-      <input id="latitude" type="number" [(ngModel)]="newKeyPoint.latitude" name="latitude" required>
-      
+      <input id="latitude" type="number" [(ngModel)]="newKeyPoint.latitude" name="latitude"  required step="0.01">
+
       <label for="longitude">Longitude:</label>
-      <input id="longitude" type="number" [(ngModel)]="newKeyPoint.longitude" name="longitude" required>
+      <input id="longitude" type="number"[(ngModel)]="newKeyPoint.longitude" name="longitude"  required step="0.01">
       
       <label for="image">Image:</label>
       <input id="image" type="file" (change)="onImageSelected($event)">

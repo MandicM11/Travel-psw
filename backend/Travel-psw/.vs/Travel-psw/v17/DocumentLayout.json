@@ -3,20 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|c:\\users\\mirko\\source\\repos\\travel-psw\\backend\\travel-psw\\travel-psw\\migrations\\20240814215515_updatekeypointmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|solutionrelative:travel-psw\\migrations\\20240814215515_updatekeypointmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|c:\\users\\mirko\\source\\repos\\travel-psw\\backend\\travel-psw\\travel-psw\\models\\keypoint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|solutionrelative:travel-psw\\models\\keypoint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|c:\\users\\mirko\\source\\repos\\travel-psw\\backend\\travel-psw\\travel-psw\\models\\tour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|solutionrelative:travel-psw\\models\\tour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|c:\\users\\mirko\\source\\repos\\travel-psw\\backend\\travel-psw\\travel-psw\\services\\tourservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|solutionrelative:travel-psw\\services\\tourservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|c:\\users\\mirko\\source\\repos\\travel-psw\\backend\\travel-psw\\travel-psw\\controllers\\tourscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|solutionrelative:travel-psw\\controllers\\tourscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|c:\\users\\mirko\\source\\repos\\travel-psw\\backend\\travel-psw\\travel-psw\\services\\tourservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|solutionrelative:travel-psw\\services\\tourservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|c:\\users\\mirko\\source\\repos\\travel-psw\\backend\\travel-psw\\travel-psw\\models\\tour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|solutionrelative:travel-psw\\models\\tour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{CF8B00E9-0AA0-4B59-B407-17E6DAFAF9BC}|Travel-psw\\Travel-psw.csproj|c:\\users\\mirko\\source\\repos\\travel-psw\\backend\\travel-psw\\travel-psw\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -35,19 +39,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "20240814215515_UpdateKeyPointModel.cs",
+              "DocumentMoniker": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Migrations\\20240814215515_UpdateKeyPointModel.cs",
+              "RelativeDocumentMoniker": "Travel-psw\\Migrations\\20240814215515_UpdateKeyPointModel.cs",
+              "ToolTip": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Migrations\\20240814215515_UpdateKeyPointModel.cs",
+              "RelativeToolTip": "Travel-psw\\Migrations\\20240814215515_UpdateKeyPointModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-14T21:55:15.967Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "KeyPoint.cs",
               "DocumentMoniker": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Models\\KeyPoint.cs",
               "RelativeDocumentMoniker": "Travel-psw\\Models\\KeyPoint.cs",
               "ToolTip": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Models\\KeyPoint.cs",
               "RelativeToolTip": "Travel-psw\\Models\\KeyPoint.cs",
-              "ViewState": "AQIAAAsAAAAAAAAAAAAAwAAAAAAAAAAA",
+              "ViewState": "AQIAAAoAAAAAAAAAAAAcwA8AAAASAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-13T05:33:06.99Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "Tour.cs",
               "DocumentMoniker": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Models\\Tour.cs",
               "RelativeDocumentMoniker": "Travel-psw\\Models\\Tour.cs",
@@ -60,32 +77,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "ToursController.cs",
               "DocumentMoniker": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Controllers\\ToursController.cs",
               "RelativeDocumentMoniker": "Travel-psw\\Controllers\\ToursController.cs",
               "ToolTip": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Controllers\\ToursController.cs",
               "RelativeToolTip": "Travel-psw\\Controllers\\ToursController.cs",
-              "ViewState": "AQIAABUAAAAAAAAAAAAAACcAAAA9AAAA",
+              "ViewState": "AQIAAFIAAAAAAAAAAAAAAGgAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-12T21:49:51.676Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "TourService.cs",
               "DocumentMoniker": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Services\\TourService.cs",
               "RelativeDocumentMoniker": "Travel-psw\\Services\\TourService.cs",
               "ToolTip": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Services\\TourService.cs",
               "RelativeToolTip": "Travel-psw\\Services\\TourService.cs",
-              "ViewState": "AQIAAHUAAAAAAAAAAAAAwIIAAAAZAAAA",
+              "ViewState": "AQIAAHcAAAAAAAAAAAAAAIcAAAAeAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-12T21:50:54.285Z"
+              "WhenOpened": "2024-08-12T21:50:54.285Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "UserService.cs",
               "DocumentMoniker": "C:\\Users\\Mirko\\source\\repos\\Travel-psw\\backend\\Travel-psw\\Travel-psw\\Services\\UserService.cs",
               "RelativeDocumentMoniker": "Travel-psw\\Services\\UserService.cs",

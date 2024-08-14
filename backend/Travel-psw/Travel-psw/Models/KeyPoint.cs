@@ -14,10 +14,10 @@ namespace Travel_psw.Models
         public string Description { get; set; }
 
         [Required]
-        public double Latitude { get; set; }
+        public decimal Latitude { get; set; }
 
         [Required]
-        public double Longitude { get; set; }
+        public decimal Longitude { get; set; }
 
         public string? ImageUrl { get; set; }
 
