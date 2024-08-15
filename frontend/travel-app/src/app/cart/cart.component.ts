@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { UserService } from '../services/user.service'; 
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-cart',
@@ -9,31 +9,51 @@ import { UserService } from '../services/user.service';
 })
 export class CartComponent implements OnInit {
   cart: any; // Definišite tip ako imate konkretan interfejs za cart
+  user: any; // Definišite tip ako imate konkretan interfejs za user
   successMessage: string | null = null;
   errorMessage: string | null = null;
   apiUrl = 'http://localhost:5249/api/cart'; // Prilagodite prema vašem API
 
   constructor(private http: HttpClient, private userService: UserService) { }
-  
 
   ngOnInit(): void {
     this.loadCart();
+    this.loadUser();
   }
 
   loadCart(): void {
-    this.http.get<any>(`${this.apiUrl}/2`).subscribe(data => {
-      // Check if items is an object with $values property
-      if (data && data.items && Array.isArray(data.items.$values)) {
-        this.cart = data;
-        this.cart.items = data.items.$values; // Extract the array
-      } else {
-        console.error('Expected an array for cart items but received:', data.items);
-        this.cart.items = []; // Default to empty array
-      }
-    }, error => {
-      console.error('Error loading cart', error);
-      this.cart.items = []; // Set to empty array on error
-    });
+    const userId = this.userService.getUserIdFromToken(); // Pretpostavljamo da je ovo metoda koja vraća ID korisnika
+    if (userId !== null) {
+      this.http.get<any>(`${this.apiUrl}/user/${userId}`).subscribe(data => {
+        console.log('Cart data:', data);
+        if (data && data.items && Array.isArray(data.items.$values)) {
+          this.cart = data;
+          this.cart.items = data.items.$values;
+        } else {
+          console.error('Expected an array for cart items but received:', data.items);
+          this.cart.items = [];
+        }
+      }, error => {
+        console.error('Error loading cart', error);
+        this.cart.items = [];
+      });
+    } else {
+      console.error('User ID is null or undefined');
+    }
+  }
+
+  loadUser(): void {
+    const userId = this.userService.getUserIdFromToken(); // Pretpostavljamo da je ovo metoda koja vraća ID korisnika
+    if (userId !== null) {
+      this.http.get<any>(`http://localhost:5249/api/auth/user/${userId}`).subscribe(data => {
+        this.user = data;
+      }, error => {
+        console.error('Error loading user', error);
+        this.user = null;
+      });
+    } else {
+      console.error('User ID is null or undefined');
+    }
   }
 
   removeFromCart(tourId: number): void {

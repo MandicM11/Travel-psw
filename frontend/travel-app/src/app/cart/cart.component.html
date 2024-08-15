@@ -1,13 +1,16 @@
 <h1>Shopping Cart</h1>
 
-<div *ngIf="cart">
-  <h3>User: {{ cart.user?.firstName }} {{ cart.user?.lastName }}</h3>
-  <p>Email: {{ cart.user?.email }}</p>
+<div *ngIf="cart && user">
+  <h3>User: {{ user.firstName }} {{ user.lastName }}</h3>
+  <p>Email: {{ user.email }}</p>
   <p>Total Price: {{ cart.totalPrice | currency }}</p>
 
   <ul>
     <li *ngFor="let item of cart.items">
       <p>Tour ID: {{ item.tourId }}</p>
+      <p>Tour Title: {{ item.tour.title }}</p>
+      <p>Quantity: {{ item.quantity }}</p>
+      <p>Price: {{ item.tour.price | currency }}</p>
       <button (click)="removeFromCart(item.tourId)" class="btn btn-danger">Remove</button>
     </li>
   </ul>

@@ -6,7 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.AspNetCore.Identity.Data;
+using System.Threading.Tasks;
 
 namespace Travel_psw.Controllers
 {
@@ -70,6 +70,18 @@ namespace Travel_psw.Controllers
         {
             // Simply invalidate the token client-side by removing it.
             return Ok(new { message = "Logged out successfully" });
+        }
+
+        
+        [HttpGet("user/{id}")]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+            return Ok(user);
         }
 
         private string GenerateJwtToken(User user)

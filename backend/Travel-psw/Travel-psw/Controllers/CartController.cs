@@ -126,8 +126,8 @@ namespace Travel_psw.Controllers
             }
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetCartByUserId([FromQuery] int userId)
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetCartByUserId(int userId)
         {
             if (userId <= 0)
             {
@@ -139,7 +139,7 @@ namespace Travel_psw.Controllers
                 var cart = await _cartService.GetCartByUserIdAsync(userId);
                 if (cart == null)
                 {
-                    return NotFound("Cart not found.");
+                    return NotFound("Cart not found for this user.");
                 }
 
                 return Ok(cart);
@@ -149,6 +149,7 @@ namespace Travel_psw.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
 
     }
 }

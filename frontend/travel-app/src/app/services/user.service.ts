@@ -51,10 +51,10 @@
       return this.http.post<any>(this.cartUrl, { userId });
     }
 
-    getCartByUserId(userId: number): Observable<any> {
-      return this.http.get<any[]>(`${this.cartUrl}?userId=${userId}`);
-    }
-
+    public getCartByUserId(userId: number): Observable<any[]> {
+      return this.http.get<any[]>(`${this.cartUrl}/user/${ userId }`);
+  }
+  
     removeItemFromCart(cartId: number, tourId: number): Observable<any> {
       return this.http.delete(`${this.cartUrl}/${cartId}/items/${tourId}`);
     }
@@ -65,5 +65,9 @@
 
     addItemToCart(cartId: number, tourId: number): Observable<any> {
       return this.http.post(`${this.cartUrl}/${cartId}/items`, { tourId });
+    }
+
+    getUserById(userId: number): Observable<any> {
+      return this.http.get<any>(`${this.loginUrl}/user/${userId}`);
     }
   }

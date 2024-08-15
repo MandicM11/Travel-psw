@@ -1,5 +1,3 @@
-// login.component.ts
-
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
@@ -36,13 +34,10 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('token', response.token); // Čuvanje tokena u lokalnoj memoriji
           const userId = this.userService.getUserIdFromToken();
           if (userId) {
+            // Preuzimanje postojeće korpe, jer je korpa već kreirana prilikom registracije
             this.userService.getCartByUserId(userId).subscribe(carts => {
               if (carts.length > 0) {
                 localStorage.setItem('cartId', carts[0].id); // Postavi ID korpe u lokalnu memoriju
-              } else {
-                this.userService.createCart(userId).subscribe(cart => {
-                  localStorage.setItem('cartId', cart.id); // Postavi ID korpe u lokalnu memoriju
-                });
               }
               this.router.navigate(['/']); // Redirektuj na glavnu stranicu ili drugu nakon uspešnog login-a
             });
