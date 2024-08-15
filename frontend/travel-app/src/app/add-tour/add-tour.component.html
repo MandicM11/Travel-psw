@@ -16,8 +16,8 @@
     </label>
     <label>Status:
       <select [(ngModel)]="tour.status" name="status">
-        <option value="draft">Draft</option>
-        <option value="published">Published</option>
+        <option [ngValue]="0">Draft</option>
+        <option [ngValue]="1">Published</option>
       </select>
     </label>
     <button type="submit">Add Tour</button>

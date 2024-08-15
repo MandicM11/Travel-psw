@@ -18,10 +18,13 @@
   {{ errorMessage }}
 </div>
 
-<ul>
-  <li *ngFor="let tour of tours">
-    <a [routerLink]="['/tours', tour.id]">{{ tour.title }}</a>
-    <button (click)="publishTour(tour.id)" class="btn btn-success ml-2">Publish</button>
-    <button (click)="archiveTour(tour.id)" class="btn btn-warning ml-2">Archive</button>
-  </li>
-</ul>
+<ng-container *ngIf="tours && tours.length > 0">
+  <ul>
+    <li *ngFor="let tour of tours">
+      <a [routerLink]="['/tours', tour.id]">{{ tour.title }}</a>
+      <button (click)="publishTour(tour.id)" class="btn btn-success ml-2">Publish</button>
+      <button (click)="archiveTour(tour.id)" class="btn btn-warning ml-2">Archive</button>
+      <button (click)="addToCart(tour.id)" class="btn btn-primary">Add to Cart</button>
+    </li>
+  </ul>
+</ng-container>

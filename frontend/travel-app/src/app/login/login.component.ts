@@ -1,3 +1,5 @@
+// login.component.ts
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
@@ -29,10 +31,22 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     if (this.loginForm.valid) {
       const formData = this.loginForm.value;
-      this.userService.loginUser(this.loginForm.value).subscribe(
+      this.userService.loginUser(formData).subscribe(
         response => {
           localStorage.setItem('token', response.token); // Čuvanje tokena u lokalnoj memoriji
-          this.router.navigate(['/']); // Redirektuj na glavnu stranicu ili drugu nakon uspešnog login-a
+          const userId = this.userService.getUserIdFromToken();
+          if (userId) {
+            this.userService.getCartByUserId(userId).subscribe(carts => {
+              if (carts.length > 0) {
+                localStorage.setItem('cartId', carts[0].id); // Postavi ID korpe u lokalnu memoriju
+              } else {
+                this.userService.createCart(userId).subscribe(cart => {
+                  localStorage.setItem('cartId', cart.id); // Postavi ID korpe u lokalnu memoriju
+                });
+              }
+              this.router.navigate(['/']); // Redirektuj na glavnu stranicu ili drugu nakon uspešnog login-a
+            });
+          }
         },
         error => {
           this.errorMessage = 'Invalid username or password'; // Prikaz poruke o grešci

@@ -33,6 +33,15 @@ namespace Travel_psw.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task<Cart> GetCartByUserIdAsync(int userId)
+        {
+            // Pretpostavljamo da koristite neki ORM kao što je Entity Framework
+            return await _context.Carts
+                .Include(c => c.Items)
+                .ThenInclude(i => i.Tour)
+                .FirstOrDefaultAsync(c => c.UserId == userId);
+        }
+
         public async Task AddToCartAsync(int cartId, int tourId)
         {
             var cart = await _context.Carts

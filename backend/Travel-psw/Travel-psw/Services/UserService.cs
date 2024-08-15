@@ -13,11 +13,13 @@ namespace Travel_psw.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly string _jwtSecret;
+        private readonly CartService _cartService;
 
-        public UserService(ApplicationDbContext context, IConfiguration configuration)
+        public UserService(ApplicationDbContext context, IConfiguration configuration, CartService cartService)
         {
             _context = context;
             _jwtSecret = configuration["Jwt:Key"];
+            _cartService = cartService ?? throw new ArgumentNullException(nameof(cartService));
             if (string.IsNullOrEmpty(_jwtSecret))
             {
                 throw new ArgumentNullException("JWT secret is not configured.");
@@ -32,8 +34,17 @@ namespace Travel_psw.Services
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
+            // Proverite da li je _cartService inicijalizovan
+            if (_cartService == null)
+            {
+                throw new InvalidOperationException("CartService is not initialized.");
+            }
+
+            await _cartService.CreateCartAsync(user.Id);
+
             return user;
         }
+
 
         public async Task<bool> UserExistsAsync(string username)
         {

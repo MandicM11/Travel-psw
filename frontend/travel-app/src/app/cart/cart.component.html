@@ -1,0 +1,24 @@
+<h1>Shopping Cart</h1>
+
+<div *ngIf="cart">
+  <h3>User: {{ cart.user?.firstName }} {{ cart.user?.lastName }}</h3>
+  <p>Email: {{ cart.user?.email }}</p>
+  <p>Total Price: {{ cart.totalPrice | currency }}</p>
+
+  <ul>
+    <li *ngFor="let item of cart.items">
+      <p>Tour ID: {{ item.tourId }}</p>
+      <button (click)="removeFromCart(item.tourId)" class="btn btn-danger">Remove</button>
+    </li>
+  </ul>
+
+  <button (click)="confirmPurchase()" class="btn btn-primary">Confirm Purchase</button>
+</div>
+
+<div *ngIf="successMessage" class="alert alert-success mt-3" role="alert">
+  {{ successMessage }}
+</div>
+
+<div *ngIf="errorMessage" class="alert alert-danger mt-3" role="alert">
+  {{ errorMessage }}
+</div>

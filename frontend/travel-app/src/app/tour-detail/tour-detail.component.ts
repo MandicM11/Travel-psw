@@ -15,7 +15,7 @@ export class TourDetailComponent implements OnInit {
     description: '',
     latitude: 0,
     longitude: 0,
-    image: null, // Add image field
+    image: null,
     tourId: null
   };
 
@@ -30,7 +30,11 @@ export class TourDetailComponent implements OnInit {
       const id = +params['id'];
       this.tourService.getTour(id).subscribe(tour => {
         this.tour = tour;
-        this.newKeyPoint.tourId = tour.id; // Set the tourId for the new key point
+        if (this.tour) {
+          // Pretvori keyPoints u niz ako dolazi kao objekat sa $values
+          this.tour.keyPoints = this.tour.keyPoints ? this.tour.keyPoints.$values : [];
+          this.newKeyPoint.tourId = tour.id;
+        }
       });
     });
   }
@@ -46,19 +50,16 @@ export class TourDetailComponent implements OnInit {
     }
   }
 
-  
-
   addKeyPoint(): void {
     if (this.tour && this.newKeyPoint.title && this.newKeyPoint.description) {
-
       const formattedLatitude = this.formatDecimal(this.newKeyPoint.latitude);
       const formattedLongitude = this.formatDecimal(this.newKeyPoint.longitude);
 
       const formData = new FormData();
       formData.append('title', this.newKeyPoint.title);
       formData.append('description', this.newKeyPoint.description);
-      formData.append('latitude', formattedLatitude); 
-      formData.append('longitude', formattedLongitude); 
+      formData.append('latitude', formattedLatitude);
+      formData.append('longitude', formattedLongitude);
       if (this.newKeyPoint.image) {
         formData.append('image', this.newKeyPoint.image);
       }
@@ -66,6 +67,9 @@ export class TourDetailComponent implements OnInit {
 
       this.tourService.addKeyPoint(formData).subscribe(keyPoint => {
         if (this.tour) {
+          if (!this.tour.keyPoints) {
+            this.tour.keyPoints = [];
+          }
           this.tour.keyPoints.push(keyPoint);
           this.showForm = false;
           this.newKeyPoint = {

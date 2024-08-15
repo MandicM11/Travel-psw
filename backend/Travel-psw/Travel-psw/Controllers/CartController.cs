@@ -126,5 +126,29 @@ namespace Travel_psw.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetCartByUserId([FromQuery] int userId)
+        {
+            if (userId <= 0)
+            {
+                return BadRequest("Invalid user ID.");
+            }
+
+            try
+            {
+                var cart = await _cartService.GetCartByUserIdAsync(userId);
+                if (cart == null)
+                {
+                    return NotFound("Cart not found.");
+                }
+
+                return Ok(cart);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
     }
 }

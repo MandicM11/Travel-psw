@@ -1,10 +1,9 @@
-<!-- tour-detail.component.html -->
 <div *ngIf="tour">
   <h1>{{ tour.title }}</h1>
   <p>{{ tour.description }}</p>
 
   <h2>Key Points</h2>
-  <ul>
+  <ul *ngIf="tour.keyPoints && tour.keyPoints.length > 0">
     <li *ngFor="let kp of tour.keyPoints">
       <h3>{{ kp.title }}</h3>
       <p>{{ kp.description }}</p>
@@ -30,12 +29,12 @@
       <label for="longitude">Longitude:</label>
       <input id="longitude" type="number" [(ngModel)]="newKeyPoint.longitude" name="longitude" step="any" required>
 
-      
       <label for="image">Image:</label>
       <input id="image" type="file" (change)="onImageSelected($event)">
       
       <button type="submit">Add</button>
     </form>
   </div>
+
   <app-tour-map [keyPoints]="tour.keyPoints"></app-tour-map>
 </div>

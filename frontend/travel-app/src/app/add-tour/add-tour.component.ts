@@ -14,7 +14,7 @@ export class AddTourComponent {
     difficulty: '',
     category: '',
     price: '',
-    status: 'draft'
+    status: '0'
   };
   apiUrl = 'http://localhost:5249/api/tours';
 

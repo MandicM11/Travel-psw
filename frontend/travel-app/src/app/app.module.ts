@@ -15,6 +15,7 @@ import { AddTourComponent } from './add-tour/add-tour.component';
 import { AddKeyPointComponent } from './add-keypoint/add-keypoint.component';
 import { TourListComponent } from './tour-list/tour-list.component';
 import { TourMapComponent } from './tour-map/tour-map.component';
+import { CartComponent } from './cart/cart.component';
 
 
 
@@ -26,7 +27,8 @@ const routes: Routes = [
   { path: 'tours/:id', component: TourDetailComponent },
   { path: 'add-tour', component: AddTourComponent },
   { path: 'tours/:id/add-keypoint', component: AddKeyPointComponent },
-  { path: '', redirectTo: '/add-tour', pathMatch: 'full' },
+  { path: 'cart', component: CartComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'map', component: TourMapComponent }
   
 ];
@@ -41,7 +43,8 @@ const routes: Routes = [
     AddTourComponent,
     AddKeyPointComponent,
     TourListComponent,
-    TourMapComponent
+    TourMapComponent,
+    CartComponent
     
   ],
   imports: [
