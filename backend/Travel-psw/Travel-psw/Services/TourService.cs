@@ -1,8 +1,10 @@
-﻿using Travel_psw.Data;
-using Travel_psw.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-
+using Travel_psw.Data;
+using Travel_psw.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System;
 
 public class TourService
 {
@@ -34,10 +36,23 @@ public class TourService
 
     public async Task<Tour> CreateTour(Tour tour)
     {
+        // Validiraj AuthorId
+        var author = await _context.Users.FindAsync(tour.AuthorId);
+        if (author == null)
+        {
+            throw new ArgumentException("Invalid AuthorId");
+        }
+
+        // Postavi Author objekat
+        tour.Author = author;
+
         _context.Tours.Add(tour);
         await _context.SaveChangesAsync();
+
         return tour;
     }
+
+
 
     public async Task<KeyPoint> AddKeyPointAsync(int tourId, KeyPoint keyPoint, IFormFile? image)
     {
@@ -81,8 +96,6 @@ public class TourService
         return keyPoint;
     }
 
-
-
     public async Task PublishTour(int tourId)
     {
         var tour = await _context.Tours.Include(t => t.KeyPoints).FirstOrDefaultAsync(t => t.Id == tourId);
@@ -96,6 +109,7 @@ public class TourService
         tour.Status = TourStatus.Published;
         await _context.SaveChangesAsync();
     }
+
     public async Task ArchiveTourAsync(int tourId)
     {
         var tour = await _context.Tours.FindAsync(tourId);
@@ -122,6 +136,14 @@ public class TourService
         return await query.ToListAsync();
     }
 
+    public async Task<IEnumerable<Tour>> GetToursByAuthorAsync(int authorId)
+    {
+        return await _context.Tours
+            .Where(t => t.AuthorId == authorId)
+            .Include(t => t.KeyPoints)
+            .ToListAsync();
+    }
+
     public async Task<IEnumerable<KeyPoint>> GetKeyPointsAsync(int tourId)
     {
         var tour = await _context.Tours
@@ -136,6 +158,24 @@ public class TourService
         return tour.KeyPoints;
     }
 
+    public async Task<ReportDto> GenerateMonthlyReport(DateTime month)
+    {
+        var startDate = new DateTime(month.Year, month.Month, 1);
+        var endDate = startDate.AddMonths(1).AddTicks(-1);
 
+        var tours = await _context.Tours
+            .Where(t => t.CreatedAt >= startDate && t.CreatedAt <= endDate)
+            .ToListAsync();
 
+        var sales = await _context.Sales
+            .Where(s => s.SaleDate >= startDate && s.SaleDate <= endDate)
+            .ToListAsync();
+
+        return new ReportDto
+        {
+            ToursCreated = tours.Count,
+            TotalSales = sales.Sum(s => s.Amount),
+            MostPopularTour = tours.OrderByDescending(t => t.Sales.Count).FirstOrDefault()?.Title
+        };
+    }
 }

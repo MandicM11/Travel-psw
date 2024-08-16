@@ -1,9 +1,8 @@
-﻿namespace Travel_psw.Data
+﻿using Microsoft.EntityFrameworkCore;
+using Travel_psw.Models;
+
+namespace Travel_psw.Data
 {
-    using Microsoft.EntityFrameworkCore;
-    using Travel_psw.Models;
-
-
     public class ApplicationDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
@@ -11,6 +10,7 @@
         public DbSet<KeyPoint> KeyPoints { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Sale> Sales { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -25,14 +25,34 @@
             modelBuilder.Entity<Tour>()
                 .HasMany(t => t.KeyPoints)
                 .WithOne()
-                .HasForeignKey(kp => kp.TourId);
+                .HasForeignKey(kp => kp.TourId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Tour>()
+                .HasOne(t => t.Author)
+                .WithMany(u => u.Tours)
+                .HasForeignKey(t => t.AuthorId)
+                .OnDelete(DeleteBehavior.Restrict);  // Ili promeni na Cascade, zavisno od željenog ponašanja
+
+
+            modelBuilder.Entity<Tour>()
+                .HasMany(t => t.Sales)
+                .WithOne(s => s.Tour)
+                .HasForeignKey(s => s.TourId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Tour>()
+                .Property(t => t.Status)
+                .HasConversion(
+                    v => (int)v,  // Enum to integer
+                    v => (TourStatus)v  // Integer to enum
+                );
 
             modelBuilder.Entity<Cart>()
-               .HasOne(c => c.User)
-               .WithMany()  // Ili .WithMany(u => u.Carts) ako `User` ima kolekciju `Carts`
-               .HasForeignKey(c => c.UserId);
+                .HasOne(c => c.User)
+                .WithMany()
+                .HasForeignKey(c => c.UserId);
 
-            // Konfiguracija za CartItem
             modelBuilder.Entity<CartItem>()
                 .HasOne(ci => ci.Cart)
                 .WithMany(c => c.Items)
@@ -42,7 +62,17 @@
                 .HasOne(ci => ci.Tour)
                 .WithMany()
                 .HasForeignKey(ci => ci.TourId);
+
+            modelBuilder.Entity<Sale>()
+                .HasOne(s => s.Tour)
+                .WithMany(t => t.Sales)
+                .HasForeignKey(s => s.TourId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Sale>()
+                .HasOne(s => s.User)
+                .WithMany(u => u.Sales)
+                .HasForeignKey(s => s.UserId);
         }
     }
 }
-

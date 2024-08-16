@@ -13,8 +13,8 @@ using Travel_psw.Data;
 namespace Travel_psw.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240815011601_InitCarts")]
-    partial class InitCarts
+    [Migration("20240816042651_Init3")]
+    partial class Init3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,9 +60,6 @@ namespace Travel_psw.Migrations
 
                     b.Property<int>("CartId")
                         .HasColumnType("integer");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
@@ -114,6 +111,35 @@ namespace Travel_psw.Migrations
                     b.ToTable("KeyPoints");
                 });
 
+            modelBuilder.Entity("Travel_psw.Models.Sale", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime>("SaleDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("TourId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TourId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Sales");
+                });
+
             modelBuilder.Entity("Travel_psw.Models.Tour", b =>
                 {
                     b.Property<int>("Id")
@@ -121,6 +147,9 @@ namespace Travel_psw.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Category")
                         .IsRequired()
@@ -148,6 +177,8 @@ namespace Travel_psw.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("Tours");
                 });
@@ -179,6 +210,9 @@ namespace Travel_psw.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -224,8 +258,38 @@ namespace Travel_psw.Migrations
                     b.HasOne("Travel_psw.Models.Tour", null)
                         .WithMany("KeyPoints")
                         .HasForeignKey("TourId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Travel_psw.Models.Sale", b =>
+                {
+                    b.HasOne("Travel_psw.Models.Tour", "Tour")
+                        .WithMany("Sales")
+                        .HasForeignKey("TourId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Travel_psw.Models.User", "User")
+                        .WithMany("Sales")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tour");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Travel_psw.Models.Tour", b =>
+                {
+                    b.HasOne("Travel_psw.Models.User", "Author")
+                        .WithMany("Tours")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("Travel_psw.Models.Cart", b =>
@@ -236,6 +300,15 @@ namespace Travel_psw.Migrations
             modelBuilder.Entity("Travel_psw.Models.Tour", b =>
                 {
                     b.Navigation("KeyPoints");
+
+                    b.Navigation("Sales");
+                });
+
+            modelBuilder.Entity("Travel_psw.Models.User", b =>
+                {
+                    b.Navigation("Sales");
+
+                    b.Navigation("Tours");
                 });
 #pragma warning restore 612, 618
         }

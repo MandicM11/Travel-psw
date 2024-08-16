@@ -5,7 +5,7 @@
 namespace Travel_psw.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateTourKeyPointRelation4 : Migration
+    public partial class Init3 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

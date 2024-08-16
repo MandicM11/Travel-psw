@@ -7,6 +7,7 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Travel_psw.Controllers
 {
@@ -36,10 +37,21 @@ namespace Travel_psw.Controllers
                 return BadRequest("All fields are required.");
             }
 
-            // Proveri da li korisničko ime već postoji
             if (await _userService.UserExistsAsync(user.Username))
             {
                 return Conflict("Username already exists.");
+            }
+
+            // Proveri da li je email u ispravnom formatu
+            if (!new EmailAddressAttribute().IsValid(user.Email))
+            {
+                return BadRequest("Invalid email format.");
+            }
+
+            // Proveri da li je uloga validna
+            if (!Enum.IsDefined(typeof(UserRole), user.Role))
+            {
+                return BadRequest("Invalid role.");
             }
 
             // Dodaj korisnika u bazu

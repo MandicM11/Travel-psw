@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Security.Cryptography;
+using System.Text.Json.Serialization;
+
 
 namespace Travel_psw.Models
 {
@@ -20,18 +21,24 @@ namespace Travel_psw.Models
         public string Difficulty { get; set; }
 
         [Required]
-        public string Category { get; set; } // Povezivanje sa interesovanjima korisnika
+        public string Category { get; set; }
 
         [Required]
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
 
         [Required]
-        public TourStatus Status { get; set; } = TourStatus.Draft; // draft ili published
+        public TourStatus Status { get; set; } = TourStatus.Draft;
 
         public List<KeyPoint> KeyPoints { get; set; } = new List<KeyPoint>();
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        
+        public int AuthorId { get; set; }
+        
+        public List<Sale> Sales { get; set; } = new List<Sale>();
+        [JsonIgnore]
+        public User Author { get; set; } // Navigaciono svojstvo za User
     }
 
     public enum TourStatus
@@ -40,6 +47,4 @@ namespace Travel_psw.Models
         Published,
         Archived
     }
-
-
 }

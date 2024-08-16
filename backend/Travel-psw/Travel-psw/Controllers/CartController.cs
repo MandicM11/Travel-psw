@@ -13,11 +13,13 @@ namespace Travel_psw.Controllers
     {
         private readonly CartService _cartService;
         private readonly EmailService _emailService;
+        private readonly ITourRepository _tourRepository;
 
-        public CartController(CartService cartService, EmailService emailService)
+        public CartController(CartService cartService, EmailService emailService, ITourRepository tourRepository)
         {
             _cartService = cartService;
             _emailService = emailService;
+            _tourRepository = tourRepository;
         }
 
         [HttpPost("{cartId}/items")]
@@ -79,7 +81,10 @@ namespace Travel_psw.Controllers
                 return BadRequest("User email is not available.");
             }
 
-            var tours = await Task.WhenAll(cart.Items.Select(async i => await _cartService.GetTourById(i.TourId)));
+            // Koristi ITourRepository za dohvat tura
+            var toursTasks = cart.Items.Select(i => _tourRepository.GetTourByIdAsync(i.TourId));
+            var tours = await Task.WhenAll(toursTasks);
+
             var emailBody = GenerateEmailBody(tours);
 
             await _emailService.SendEmailAsync(cart.User.Email, "Purchase Confirmation", emailBody);

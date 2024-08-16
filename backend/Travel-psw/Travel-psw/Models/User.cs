@@ -2,7 +2,16 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace Travel_psw.Models
+
+
 {
+
+    public enum UserRole
+    {
+        User,       // Običan korisnik
+        Author,     // Autor
+        Admin       // Administrator, ako je potrebno
+    }
     public class User
     {
         [Key] 
@@ -24,6 +33,12 @@ namespace Travel_psw.Models
         [EmailAddress] 
         public string Email { get; set; }
 
-        public List<string> Interests { get; set; } 
+        public List<string> Interests { get; set; }
+
+        [Required]
+        public UserRole Role { get; set; }
+
+        public ICollection<Tour> Tours { get; set; } = new List<Tour>();
+        public ICollection<Sale> Sales { get; set; } = new List<Sale>();
     }
 }

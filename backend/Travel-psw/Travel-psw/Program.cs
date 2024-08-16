@@ -7,6 +7,8 @@ using Travel_psw.Data;
 using Travel_psw.Services;
 using Microsoft.AspNetCore.SpaServices.Extensions;
 using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,12 +38,26 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
     });
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.Converters.Add(new StringEnumConverter());
+});
+
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<TourService>();
 builder.Services.AddScoped<CartService>();
 builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<ReportService>();
+builder.Services.AddScoped<ITourRepository, TourRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ISaleRepository, SaleRepository>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 

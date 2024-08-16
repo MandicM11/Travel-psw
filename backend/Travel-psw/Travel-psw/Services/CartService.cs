@@ -111,6 +111,47 @@ namespace Travel_psw.Services
 
             // Pošaljite potvrdu putem emaila
             await _emailService.SendEmailAsync(cart.User.Email, "Purchase Confirmation", emailBody);
+            try
+            {
+                foreach (var item in cart.Items)
+                {
+                    var tour = await _context.Tours
+                        .Include(t => t.Author) // Pretpostavljamo da Tour ima Author navigacijski property
+                        .FirstOrDefaultAsync(t => t.Id == item.TourId);
+
+                    if (tour != null)
+                    {
+                        // Dodaj ili ažuriraj sale za autora ture
+                        var existingSale = await _context.Sales
+                            .FirstOrDefaultAsync(s => s.TourId == item.TourId && s.UserId == tour.AuthorId);
+
+                        if (existingSale != null)
+                        {
+                            // Ako postoji, ažuriraj amount
+                            existingSale.Amount += item.Tour.Price * item.Quantity;
+                            _context.Entry(existingSale).State = EntityState.Modified;
+                        }
+                        else
+                        {
+                            // Ako ne postoji, kreiraj novi sale zapis
+                            var newSale = new Sale
+                            {
+                                TourId = item.TourId,
+                                Amount = item.Tour.Price * item.Quantity,
+                                UserId = tour.AuthorId, // Autor ture
+                                SaleDate = DateTime.UtcNow
+                            };
+                            await _context.Sales.AddAsync(newSale);
+                        }
+                        await _context.SaveChangesAsync();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+
 
             // Očistite korpu nakon potvrde
             cart.Items.Clear();
@@ -119,12 +160,7 @@ namespace Travel_psw.Services
         }
 
 
-        public async Task<Tour> GetTourById(int tourId)
-        {
-            return await _context.Tours
-                .FirstOrDefaultAsync(t => t.Id == tourId);
-        }
-
+       
         public async Task<Cart> CreateCartAsync(int userId)
         {
             var cart = new Cart
