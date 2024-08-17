@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,80 +10,98 @@ public class ReportService
     private readonly ITourRepository _tourRepository;
     private readonly IUserRepository _userRepository;
     private readonly ISaleRepository _saleRepository;
+    private readonly EmailService _emailService;
 
-    public ReportService(ITourRepository tourRepository, IUserRepository userRepository, ISaleRepository saleRepository)
+    public ReportService(ITourRepository tourRepository, IUserRepository userRepository, ISaleRepository saleRepository, EmailService emailService)
     {
-        _tourRepository = tourRepository;
-        _userRepository = userRepository;
-        _saleRepository = saleRepository;
+        _tourRepository = tourRepository ?? throw new ArgumentNullException(nameof(tourRepository));
+        _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+        _saleRepository = saleRepository ?? throw new ArgumentNullException(nameof(saleRepository));
+        _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
     }
 
-    public async Task<Report> GenerateMonthlyReport(DateTime month)
+    public async Task GenerateMonthlyReportAsync(DateTime reportDate)
     {
-        var startOfMonth = new DateTime(month.Year, month.Month, 1, 0, 0, 0, DateTimeKind.Utc);
-        var endOfMonth = startOfMonth.AddMonths(1).AddTicks(-1);
+        // Konvertujte reportDate u UTC pre nego što koristite
+        var startOfMonth = new DateTime(reportDate.Year, reportDate.Month, 1, 0, 0, 0, DateTimeKind.Utc);
+        var endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
 
-        var tours = await _tourRepository.GetToursByDateRange(startOfMonth, endOfMonth);
-        var users = await _userRepository.GetAllUsers();
+        // Dobavljanje autora
+        var authors = await _userRepository.GetAllUsers();
 
-        var report = new List<UserReport>();
-
-        foreach (var user in users)
+        foreach (var author in authors)
         {
-            var userTours = tours.Where(t => t.AuthorId == user.Id).ToList();
-            var sales = await _saleRepository.GetSalesByDateRange(user.Id, startOfMonth, endOfMonth);
+            // 1. Izračunavanje prodaja za tekući mesec
+            var salesThisMonth = await _saleRepository.GetSalesByDateRange(author.Id, startOfMonth, endOfMonth);
 
-            var totalSales = sales.Sum(s => s.Amount);
-            var totalTours = userTours.Count;
+            var totalSalesThisMonth = salesThisMonth.Sum(s => s.Amount);
+            var totalToursSoldThisMonth = salesThisMonth.GroupBy(s => s.TourId).Count();
 
-            var previousMonth = startOfMonth.AddMonths(-1);
-            var previousMonthTours = await _tourRepository.GetToursByDateRange(
-                new DateTime(previousMonth.Year, previousMonth.Month, 1, 0, 0, 0, DateTimeKind.Utc),
-                new DateTime(previousMonth.Year, previousMonth.Month, 1, 0, 0, 0, DateTimeKind.Utc).AddMonths(1).AddTicks(-1)
-            );
+            // 2. Izračunavanje prodaja za prethodni mesec
+            var startOfPreviousMonth = startOfMonth.AddMonths(-1);
+            var endOfPreviousMonth = endOfMonth.AddMonths(-1);
 
-            var previousMonthUserTours = previousMonthTours.Where(t => t.AuthorId == user.Id).ToList();
-            var previousSales = await _saleRepository.GetSalesByDateRange(user.Id, new DateTime(previousMonth.Year, previousMonth.Month, 1, 0, 0, 0, DateTimeKind.Utc), new DateTime(previousMonth.Year, previousMonth.Month, 1, 0, 0, 0, DateTimeKind.Utc).AddMonths(1).AddTicks(-1));
-            var previousTotalSales = previousSales.Sum(s => s.Amount);
+            var salesLastMonth = await _saleRepository.GetSalesByDateRange(author.Id, startOfPreviousMonth, endOfPreviousMonth);
 
-            var percentageChange = (previousTotalSales == 0)
-                ? (totalSales > 0 ? 100 : 0)
-                : (totalSales - previousTotalSales) / previousTotalSales * 100;
+            var totalSalesLastMonth = salesLastMonth.Sum(s => s.Amount);
+            var totalToursSoldLastMonth = salesLastMonth.GroupBy(s => s.TourId).Count();
 
-            var reportItem = new UserReport
+            // 3. Procenat porasta/opadanja
+            decimal salesGrowthPercentage = 0;
+            if (totalSalesLastMonth > 0)
             {
-                UserId = user.Id,
-                UserName = user.Username, // Pretpostavljam da je 'Username' ta svojstva
-                TotalSales = totalSales,
-                TotalTours = totalTours,
-                PercentageChange = percentageChange,
-                BestSellingTours = userTours
-                                    .Where(t => sales.Any(s => s.TourId == t.Id))
-                                    .OrderByDescending(t => sales.Count(s => s.TourId == t.Id))
-                                    .Take(5)
-                                    .ToList(),
-                UnsoldTours = await GetUnsoldTours(user.Id, startOfMonth, endOfMonth),
-            };
+                salesGrowthPercentage = ((totalSalesThisMonth - totalSalesLastMonth) / totalSalesLastMonth) * 100;
+            }
 
-            report.Add(reportItem);
+            // 4. Identifikovanje najprodavanijih i neprodatih tura
+            var toursByAuthor = await _tourRepository.FindByConditionAsync(t => t.AuthorId == author.Id);
+
+            var bestSellingTour = salesThisMonth
+                .GroupBy(s => s.TourId)
+                .OrderByDescending(g => g.Sum(s => s.Amount))
+                .Select(g => g.Key)
+                .FirstOrDefault();
+
+            var unsoldToursThisMonth = toursByAuthor
+                .Where(t => !salesThisMonth.Any(s => s.TourId == t.Id))
+                .ToList();
+
+            // Provera tura koje nisu prodate tri uzastopna meseca
+            var unsoldForThreeMonths = new List<Tour>();
+            foreach (var tour in unsoldToursThisMonth)
+            {
+                var salesInLastThreeMonths = await _saleRepository.GetSalesByDateRange(tour.Id, startOfMonth.AddMonths(-3), endOfMonth.AddMonths(-3));
+
+                if (!salesInLastThreeMonths.Any())
+                {
+                    unsoldForThreeMonths.Add(tour);
+                }
+            }
+
+            // 5. Slanje izveštaja putem emaila autoru
+            var reportBody = $"Monthly Report for {startOfMonth:MMMM yyyy}\n" +
+                             $"Total Tours Sold: {totalToursSoldThisMonth}\n" +
+                             $"Total Revenue: {totalSalesThisMonth:C}\n" +
+                             $"Sales Growth: {salesGrowthPercentage:+0.00%;-0.00%}\n\n" +
+                             $"Best Selling Tour: {bestSellingTour}\n" +
+                             $"Unsold Tours: {string.Join(", ", unsoldToursThisMonth.Select(t => t.Title))}\n";
+
+            if (unsoldForThreeMonths.Any())
+            {
+                reportBody += "\nThe following tours have not been sold for three consecutive months:\n" +
+                              $"{string.Join(", ", unsoldForThreeMonths.Select(t => t.Title))}\n" +
+                              "Consider archiving these tours.";
+            }
+
+            await _emailService.SendEmailAsync(author.Email, "Monthly Sales Report", reportBody);
         }
-
-        var summary = new ReportDto
-        {
-            ToursCreated = tours.Count,
-            TotalSales = report.Sum(r => r.TotalSales),
-            MostPopularTour = report.SelectMany(r => r.BestSellingTours)
-                                      .GroupBy(t => t.Title)
-                                      .OrderByDescending(g => g.Count())
-                                      .FirstOrDefault()?.Key
-        };
-
-        return new Report
-        {
-            MonthlyReports = report,
-            Summary = summary
-        };
     }
+
+
+
+
+
+
 
     private async Task<List<Tour>> GetUnsoldTours(int userId, DateTime startOfMonth, DateTime endOfMonth)
     {

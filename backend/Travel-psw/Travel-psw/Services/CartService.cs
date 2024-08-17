@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Travel_psw.Models;
 using System.Collections.Generic;
 using Travel_psw.Data;
+using Travel_psw.Controllers;
+using System.Net.Http;
 
 namespace Travel_psw.Services
 {
@@ -11,11 +13,15 @@ namespace Travel_psw.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly EmailService _emailService;
+        private readonly ISaleRepository _saleRepository;
+        private readonly  ILogger<CartService> _logger;
+        private readonly HttpClient _httpClient;
 
-        public CartService(ApplicationDbContext context, EmailService emailService)
+        public CartService(ApplicationDbContext context, EmailService emailService, ISaleRepository saleRepository, ILogger<CartService> logger, HttpClient httpClient)
         {
             _context = context;
             _emailService = emailService;
+            _saleRepository = saleRepository;
         }
 
         public async Task<Cart> GetCartAsync(int cartId)
@@ -105,62 +111,54 @@ namespace Travel_psw.Services
             if (cart == null)
                 throw new Exception("Cart not found.");
 
-            var emailBody = $"Thank you for your purchase! You have bought the following tours:\n\n" +
-                            string.Join("\n", cart.Items.Select(i => $"{i.Tour.Title} (Quantity: {i.Quantity})")) +
-                            $"\n\nTotal Price: {cart.TotalPrice:C}";
-
-            // Pošaljite potvrdu putem emaila
-            await _emailService.SendEmailAsync(cart.User.Email, "Purchase Confirmation", emailBody);
-            try
+            foreach (var item in cart.Items)
             {
-                foreach (var item in cart.Items)
+                if (item.Tour == null)
                 {
-                    var tour = await _context.Tours
-                        .Include(t => t.Author) // Pretpostavljamo da Tour ima Author navigacijski property
-                        .FirstOrDefaultAsync(t => t.Id == item.TourId);
+                    _logger.LogWarning("Tour for item with TourId {TourId} is not loaded.", item.TourId);
+                    continue; // Preskoči ovaj item
+                }
 
-                    if (tour != null)
-                    {
-                        // Dodaj ili ažuriraj sale za autora ture
-                        var existingSale = await _context.Sales
-                            .FirstOrDefaultAsync(s => s.TourId == item.TourId && s.UserId == tour.AuthorId);
+                
+                _logger.LogInformation("Creating sale with TourId {TourId}, Quantity {Quantity}, Price {Price}, UserId {UserId}",
+                    item.TourId, item.Quantity, item.Tour.Price, cart.UserId);
 
-                        if (existingSale != null)
-                        {
-                            // Ako postoji, ažuriraj amount
-                            existingSale.Amount += item.Tour.Price * item.Quantity;
-                            _context.Entry(existingSale).State = EntityState.Modified;
-                        }
-                        else
-                        {
-                            // Ako ne postoji, kreiraj novi sale zapis
-                            var newSale = new Sale
-                            {
-                                TourId = item.TourId,
-                                Amount = item.Tour.Price * item.Quantity,
-                                UserId = tour.AuthorId, // Autor ture
-                                SaleDate = DateTime.UtcNow
-                            };
-                            await _context.Sales.AddAsync(newSale);
-                        }
-                        await _context.SaveChangesAsync();
-                    }
+                var newSale = new Sale
+                {
+                    TourId = item.TourId,
+                    Amount = item.Quantity * item.Tour.Price,
+                    UserId = cart.UserId,
+                    SaleDate = DateTime.UtcNow
+                };
+
+                try
+                {
+                    _logger.LogInformation("Creating sale: {@Sale}", newSale);
+                    await _saleRepository.AddSaleAsync(newSale);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error while adding sale in ConfirmPurchaseAsync");
+                    throw;  // Ponovo baci izuzetak kako bi se obradio dalje
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-            }
 
-
-            // Očistite korpu nakon potvrde
+            // Očisti korpu nakon potvrde
             cart.Items.Clear();
             cart.TotalPrice = 0;
             await _context.SaveChangesAsync();
         }
 
 
-       
+        
+
+
+
+
+
+
+
+
         public async Task<Cart> CreateCartAsync(int userId)
         {
             var cart = new Cart

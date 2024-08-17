@@ -13,8 +13,8 @@ using Travel_psw.Data;
 namespace Travel_psw.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240816035826_Init2")]
-    partial class Init2
+    [Migration("20240817003114_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -273,7 +273,7 @@ namespace Travel_psw.Migrations
                     b.HasOne("Travel_psw.Models.User", "User")
                         .WithMany("Sales")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Tour");

@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Travel_psw.Data;
@@ -9,6 +12,7 @@ public interface ITourRepository
     Task<List<Tour>> GetToursByDateRange(DateTime startDate, DateTime endDate);
     Task<Tour> GetTourByIdAsync(int tourId);
     Task UpdateTourAsync(Tour tour);
+    Task<List<Tour>> FindByConditionAsync(Expression<Func<Tour, bool>> expression);
 }
 
 public class TourRepository : ITourRepository
@@ -38,7 +42,10 @@ public class TourRepository : ITourRepository
         await _context.SaveChangesAsync();
     }
 
-    // Implementirajte druge metode ako su potrebne
+    public async Task<List<Tour>> FindByConditionAsync(Expression<Func<Tour, bool>> expression)
+    {
+        return await _context.Tours
+            .Where(expression)
+            .ToListAsync();
+    }
 }
-
-

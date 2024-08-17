@@ -32,20 +32,19 @@ namespace Travel_psw.Data
                 .HasOne(t => t.Author)
                 .WithMany(u => u.Tours)
                 .HasForeignKey(t => t.AuthorId)
-                .OnDelete(DeleteBehavior.Restrict);  // Ili promeni na Cascade, zavisno od željenog ponašanja
-
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Tour>()
                 .HasMany(t => t.Sales)
-                .WithOne(s => s.Tour)
+                .WithOne()
                 .HasForeignKey(s => s.TourId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Tour>()
                 .Property(t => t.Status)
                 .HasConversion(
-                    v => (int)v,  // Enum to integer
-                    v => (TourStatus)v  // Integer to enum
+                    v => (int)v,
+                    v => (TourStatus)v
                 );
 
             modelBuilder.Entity<Cart>()
@@ -72,7 +71,10 @@ namespace Travel_psw.Data
             modelBuilder.Entity<Sale>()
                 .HasOne(s => s.User)
                 .WithMany(u => u.Sales)
-                .HasForeignKey(s => s.UserId);
+                .HasForeignKey(s => s.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            
         }
     }
 }

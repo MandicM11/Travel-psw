@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace Travel_psw.Controllers
 {
@@ -14,11 +16,13 @@ namespace Travel_psw.Controllers
         }
 
         [HttpGet("monthly-report")]
-        public async Task<IActionResult> GetMonthlyReport(DateTime month)
+        public async Task<IActionResult> GetMonthlyReport([FromQuery] DateTime month)
         {
-            var report = await _reportService.GenerateMonthlyReport(month);
-            return Ok(report);
+            // Pozivanje metode koja ne vraća rezultat
+            await _reportService.GenerateMonthlyReportAsync(month);
+
+            // Vraća uspešan status kod kao odgovor
+            return Ok("Monthly report has been generated successfully.");
         }
     }
-
 }
