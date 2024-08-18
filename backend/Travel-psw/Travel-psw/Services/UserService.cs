@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -14,11 +15,13 @@ namespace Travel_psw.Services
         private readonly ApplicationDbContext _context;
         private readonly string _jwtSecret;
         private readonly CartService _cartService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserService(ApplicationDbContext context, IConfiguration configuration, CartService cartService)
+        public UserService(ApplicationDbContext context, IConfiguration configuration, CartService cartService, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _jwtSecret = configuration["Jwt:Key"];
+            _httpContextAccessor = httpContextAccessor;
             _cartService = cartService ?? throw new ArgumentNullException(nameof(cartService));
             if (string.IsNullOrEmpty(_jwtSecret))
             {
@@ -74,7 +77,7 @@ namespace Travel_psw.Services
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new []
+                Subject = new ClaimsIdentity(new[]
                 {
                     new Claim(ClaimTypes.Name, user.Username),
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
@@ -92,5 +95,39 @@ namespace Travel_psw.Services
         {
             return await _context.Users.FindAsync(userId);
         }
+
+        public User GetLoggedInUser()
+        {
+            // Proverite da li header sadrži Authorization token
+            var authHeader = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+            if (authHeader == null || !authHeader.StartsWith("Bearer "))
+            {
+                return null;
+            }
+
+            var token = authHeader.Substring("Bearer ".Length).Trim();
+
+            try
+            {
+                // Čitajte JWT token
+                var jwtToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
+
+                // Preuzmite claim sa identifikatorom korisnika
+                var userIdClaim = jwtToken.Claims.FirstOrDefault(claim => claim.Type == "nameid");
+
+                if (userIdClaim != null)
+                {
+                    var userId = int.Parse(userIdClaim.Value);
+                    return _context.Users.FirstOrDefault(u => u.Id == userId);
+                }
+            }
+            catch (Exception)
+            {
+                // Log error or handle invalid token case
+            }
+
+            return null;
+        }
+
     }
 }
