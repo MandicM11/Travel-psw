@@ -10,7 +10,7 @@ namespace Travel_psw.Models
     {
         User,       // Običan korisnik
         Author,     // Autor
-        Admin       // Administrator, ako je potrebno
+        Admin       // Administrator
     }
     public class User
     {
@@ -40,5 +40,8 @@ namespace Travel_psw.Models
 
         public ICollection<Tour> Tours { get; set; } = new List<Tour>();
         public ICollection<Sale> Sales { get; set; } = new List<Sale>();
+
+        public int Points { get; set; } = 0;
+        public bool IsAwarded { get; set; } = false;
     }
 }
