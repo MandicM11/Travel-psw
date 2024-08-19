@@ -46,9 +46,15 @@ export class TourListComponent implements OnInit {
   }
 
   loadTours(): void {
-    this.http.get<any>(this.apiUrl).subscribe(data => {
-      if (data && Array.isArray(data.$values)) {
-        this.tours = data.$values;
+    let url = this.apiUrl;
+  
+    if (this.selectedStatus && this.selectedStatus !== '') {
+      url += `?status=${this.selectedStatus}`;
+    }
+  
+    this.http.get<any[]>(url).subscribe(data => {
+      if (Array.isArray(data)) {
+        this.tours = data;
       } else {
         console.error('Expected an array for tours but received:', data);
         this.tours = [];
@@ -58,6 +64,8 @@ export class TourListComponent implements OnInit {
       this.tours = [];
     });
   }
+  
+  
 
   onStatusChange(event: Event): void {
     const target = event.target as HTMLSelectElement;

@@ -36,7 +36,7 @@ namespace Travel_psw.Models
         public List<string> Interests { get; set; }
 
         [Required]
-        public UserRole Role { get; set; }
+        public UserRole Role { get; set; } = UserRole.User;
 
         public ICollection<Tour> Tours { get; set; } = new List<Tour>();
         public ICollection<Sale> Sales { get; set; } = new List<Sale>();

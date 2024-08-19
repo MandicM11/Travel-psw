@@ -20,10 +20,16 @@ export class TourMapComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['keyPoints'] && this.keyPoints.length) {
-      console.log('keyPoints:', this.keyPoints);  // Provera podataka
-      if (this.isBrowser) {
-        this.updateMap();
+    if (changes['keyPoints']) {
+      const keyPoints = changes['keyPoints'].currentValue;
+      console.log('Updated keyPoints:', keyPoints); 
+      if (Array.isArray(keyPoints) && keyPoints.length > 0) {
+        console.log('keyPoints:', keyPoints);  // Provera podataka
+        if (this.isBrowser) {
+          this.updateMap();
+        }
+      } else {
+        console.log('Key points is either undefined, not an array, or empty');
       }
     }
   }

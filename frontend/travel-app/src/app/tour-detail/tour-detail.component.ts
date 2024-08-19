@@ -31,13 +31,19 @@ export class TourDetailComponent implements OnInit {
       this.tourService.getTour(id).subscribe(tour => {
         this.tour = tour;
         if (this.tour) {
-          // Pretvori keyPoints u niz ako dolazi kao objekat sa $values
-          this.tour.keyPoints = this.tour.keyPoints ? this.tour.keyPoints.$values : [];
+          console.log('Tour received:', this.tour);
+          if (Array.isArray(this.tour.keyPoints)) {
+            console.log('Key Points:', this.tour.keyPoints);
+          } else {
+            console.log('No keyPoints in tour or not an array');
+          }
           this.newKeyPoint.tourId = tour.id;
         }
       });
     });
   }
+  
+  
 
   showAddKeyPointForm(): void {
     this.showForm = !this.showForm;
@@ -49,6 +55,7 @@ export class TourDetailComponent implements OnInit {
       this.newKeyPoint.image = file;
     }
   }
+
 
   addKeyPoint(): void {
     if (this.tour && this.newKeyPoint.title && this.newKeyPoint.description) {
@@ -65,6 +72,13 @@ export class TourDetailComponent implements OnInit {
       }
       formData.append('tourId', this.newKeyPoint.tourId.toString());
 
+      if (this.newKeyPoint.tourId !== null && this.newKeyPoint.tourId !== undefined) {
+        formData.append('tourId', this.newKeyPoint.tourId.toString());
+      } else {
+        console.error('Tour ID is missing');
+        return;
+      }
+
       this.tourService.addKeyPoint(formData).subscribe(keyPoint => {
         if (this.tour) {
           if (!this.tour.keyPoints) {
@@ -80,7 +94,7 @@ export class TourDetailComponent implements OnInit {
             image: null,
             tourId: null
           };
-        }
+        } 
       });
     }
   }
