@@ -31,6 +31,9 @@ public class UsersController : ControllerBase
         return Ok(awardedAuthors);
     }
 
+   
+
+
     [HttpPost("recommendations")]
     public IActionResult RequestRecommendations([FromQuery] string difficulty)
     {

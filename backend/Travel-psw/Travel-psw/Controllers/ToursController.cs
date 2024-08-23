@@ -82,9 +82,9 @@ public class ToursController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetTours([FromQuery] TourStatus? status = null)
+    public async Task<IActionResult> GetTours([FromQuery] TourStatus? status, [FromQuery] bool? isRewarded)
     {
-        var tours = await _tourService.GetToursByStatusAsync(status);
+        var tours = await _tourService.GetToursByStatusAsync(status, isRewarded);
         return Ok(tours);
     }
 

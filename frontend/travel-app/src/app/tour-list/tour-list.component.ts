@@ -14,6 +14,8 @@ export class TourListComponent implements OnInit {
   successMessage: string | null = null;
   errorMessage: string | null = null;
   selectedStatus: string | null = null;
+  selectedAuthor: string | null = null;
+
 
   constructor(private http: HttpClient, private userService: UserService) { }
 
@@ -45,11 +47,15 @@ export class TourListComponent implements OnInit {
     }
   }
 
-  loadTours(): void {
+  loadTours(isAwarded: boolean | null = null): void {
     let url = this.apiUrl;
   
     if (this.selectedStatus && this.selectedStatus !== '') {
       url += `?status=${this.selectedStatus}`;
+    }
+  
+    if (isAwarded !== null) {
+      url += this.selectedStatus ? `&isRewarded=${isAwarded}` : `?isRewarded=${isAwarded}`;
     }
   
     this.http.get<any[]>(url).subscribe(data => {
@@ -66,12 +72,22 @@ export class TourListComponent implements OnInit {
   }
   
   
+  
 
   onStatusChange(event: Event): void {
     const target = event.target as HTMLSelectElement;
     this.selectedStatus = target.value;
     this.loadTours();
   }
+
+  onAuthorChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    const isAwarded = target.value === 'awarded' ? true : target.value === 'all' ? null : false;
+    
+    this.loadTours(isAwarded);
+  }
+  
+  
 
   archiveTour(tourId: number): void {
     this.http.put(`${this.apiUrl}/${tourId}/archive`, {}).subscribe(() => {
