@@ -8,8 +8,15 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-  cart: any; // Definišite tip ako imate konkretan interfejs za cart
-  user: any; // Definišite tip ako imate konkretan interfejs za user
+  cart: any = {
+    id: null,
+    items: []
+  };
+  user: any = {
+    id: null,
+    username: '',
+    email: ''
+  };
   successMessage: string | null = null;
   errorMessage: string | null = null;
   apiUrl = 'http://localhost:5249/api/cart'; // Prilagodite prema vašem API
@@ -26,9 +33,18 @@ export class CartComponent implements OnInit {
     if (userId !== null) {
       this.http.get<any>(`${this.apiUrl}/user/${userId}`).subscribe(data => {
         console.log('Cart data:', data);
-        if (data && data.items && Array.isArray(data.items.$values)) {
-          this.cart = data;
-          this.cart.items = data.items.$values;
+        this.cart.id = data.id;
+        if (data.items && Array.isArray(data.items)) {
+          // Mapiramo potrebne podatke iz svakog itema
+          this.cart.items = data.items.map((item: any) => ({
+            id: item.id,
+            quantity: item.quantity,
+            tour: {
+              id: item.tour.id,
+              title: item.tour.title,
+              price: item.tour.price
+            }
+          }));
         } else {
           console.error('Expected an array for cart items but received:', data.items);
           this.cart.items = [];
@@ -46,7 +62,12 @@ export class CartComponent implements OnInit {
     const userId = this.userService.getUserIdFromToken(); // Pretpostavljamo da je ovo metoda koja vraća ID korisnika
     if (userId !== null) {
       this.http.get<any>(`http://localhost:5249/api/auth/user/${userId}`).subscribe(data => {
-        this.user = data;
+        // Mapiramo potrebne podatke iz korisnika
+        this.user = {
+          id: data.id,
+          username: data.username,
+          email: data.email
+        };
       }, error => {
         console.error('Error loading user', error);
         this.user = null;
@@ -84,7 +105,7 @@ export class CartComponent implements OnInit {
     this.userService.confirmPurchase(this.cart.id).subscribe(
       () => {
         this.successMessage = 'Purchase confirmed! A confirmation email will be sent.';
-        if (this.cart) this.cart.items = [];
+        this.cart.items = []; // Očisti korpu nakon kupovine
         setTimeout(() => this.successMessage = null, 3000);
       },
       error => {
