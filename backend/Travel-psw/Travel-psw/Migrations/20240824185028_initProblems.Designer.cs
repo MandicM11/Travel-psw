@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Travel_psw.Data;
@@ -12,9 +13,11 @@ using Travel_psw.Data;
 namespace Travel_psw.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240824185028_initProblems")]
+    partial class initProblems
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,8 +155,8 @@ namespace Travel_psw.Migrations
 
                     b.Property<string>("EventType")
                         .IsRequired()
-                        .HasMaxLength(34)
-                        .HasColumnType("character varying(34)");
+                        .HasMaxLength(21)
+                        .HasColumnType("character varying(21)");
 
                     b.Property<DateTime>("OccurredAt")
                         .HasColumnType("timestamp with time zone");
@@ -292,7 +295,7 @@ namespace Travel_psw.Migrations
                 {
                     b.HasBaseType("Travel_psw.Models.ProblemEvent");
 
-                    b.HasDiscriminator().HasValue("ProblemRejectedEvent");
+                    b.HasDiscriminator().HasValue("ProblemRejected");
                 });
 
             modelBuilder.Entity("Travel_psw.Models.ProblemReportedEvent", b =>
@@ -307,7 +310,7 @@ namespace Travel_psw.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasDiscriminator().HasValue("ProblemReportedEvent");
+                    b.HasDiscriminator().HasValue("ProblemReported");
                 });
 
             modelBuilder.Entity("Travel_psw.Models.ProblemResolvedEvent", b =>
@@ -317,14 +320,14 @@ namespace Travel_psw.Migrations
                     b.Property<DateTime>("ResolvedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.HasDiscriminator().HasValue("ProblemResolvedEvent");
+                    b.HasDiscriminator().HasValue("ProblemResolved");
                 });
 
             modelBuilder.Entity("Travel_psw.Models.ProblemSentForReviewEvent", b =>
                 {
                     b.HasBaseType("Travel_psw.Models.ProblemEvent");
 
-                    b.HasDiscriminator().HasValue("ProblemSentForReviewEvent");
+                    b.HasDiscriminator().HasValue("ProblemSentForReview");
                 });
 
             modelBuilder.Entity("Travel_psw.Models.Cart", b =>

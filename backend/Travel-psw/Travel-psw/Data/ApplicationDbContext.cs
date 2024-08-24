@@ -12,6 +12,9 @@ namespace Travel_psw.Data
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Sale> Sales { get; set; }
 
+        public DbSet<Problem> Problems { get; set; }
+        public DbSet<ProblemEvent> ProblemEvents { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
@@ -74,7 +77,16 @@ namespace Travel_psw.Data
                 .HasForeignKey(s => s.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            
+            modelBuilder.Entity<Problem>().ToTable("Problems");
+            modelBuilder.Entity<ProblemEvent>().ToTable("ProblemEvents");
+
+            modelBuilder.Entity<ProblemEvent>()
+            .HasDiscriminator<string>("EventType")
+            .HasValue<ProblemReportedEvent>("ProblemReportedEvent")
+            .HasValue<ProblemResolvedEvent>("ProblemResolvedEvent")
+            .HasValue<ProblemSentForReviewEvent>("ProblemSentForReviewEvent")
+            .HasValue<ProblemRejectedEvent>("ProblemRejectedEvent");
+
         }
     }
 }

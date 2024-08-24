@@ -64,6 +64,8 @@ builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<ReportService>();
 builder.Services.AddScoped<RecommendationService>();
 builder.Services.AddScoped<AwardService>();
+builder.Services.AddScoped<ProblemService>();
+builder.Services.AddScoped<EventStore>();
 builder.Services.AddScoped<AwardBackgroundService>();
 builder.Services.AddScoped<ITourRepository, TourRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
