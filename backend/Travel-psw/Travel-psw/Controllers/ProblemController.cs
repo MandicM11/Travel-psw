@@ -1,6 +1,7 @@
 ﻿namespace Travel_psw.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using Travel_psw.Models;
     using Travel_psw.Services;
 
     [ApiController]
@@ -61,6 +62,19 @@
                 return NotFound();
             return Ok(problem);
         }
+        [HttpGet("problems")]
+        public async Task<ActionResult<IEnumerable<Problem>>> GetProblems()
+        {
+            var problems = await _problemService.GetAllProblemsAsync();
+            return Ok(problems);
+        }
+
+        [HttpPut("problems/{id}/status")]
+        public async Task<IActionResult> UpdateProblemStatus(int id, [FromBody] ProblemStatusUpdateDto statusUpdate)
+        {
+            await _problemService.UpdateProblemStatusAsync(id, statusUpdate.Status);
+            return NoContent();
+        }
     }
 
     public class ReportProblemRequest
@@ -70,5 +84,11 @@
         public string Title { get; set; }
         public string Description { get; set; }
     }
+
+    public class ProblemStatusUpdateDto
+    {
+        public ProblemStatus Status { get; set; }
+    }
+
 
 }

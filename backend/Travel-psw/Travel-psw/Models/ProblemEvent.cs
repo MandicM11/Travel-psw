@@ -27,4 +27,10 @@
     {
     }
 
+    public class ProblemStatusChangedEvent : ProblemEvent
+    {
+        public ProblemStatus NewStatus { get; set; }
+    }
+
+
 }

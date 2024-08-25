@@ -142,5 +142,11 @@ namespace Travel_psw.Services
             return null;
         }
 
+        public async Task<List<User>> GetAllUsersAsync()
+        {
+            return await _context.Users.ToListAsync();
+        }
+
+
     }
 }

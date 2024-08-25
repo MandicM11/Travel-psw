@@ -9,6 +9,8 @@
     private registerUrl = 'http://localhost:5249/api/Auth/register';
     private loginUrl = 'http://localhost:5249/api/Auth/login';
     private cartUrl = 'http://localhost:5249/api/cart';
+    private adminUrl = 'http://localhost:5249/api/admin';
+    private userUrl = 'http://localhost:5249/api/users';
 
     constructor(private http: HttpClient) {}
 
@@ -69,5 +71,16 @@
 
     getUserById(userId: number): Observable<any> {
       return this.http.get<any>(`${this.loginUrl}/user/${userId}`);
+    }
+
+    blockUser(userId: number): Observable<any> {
+      return this.http.post<any>(`${this.adminUrl}/block/${userId}`, {});
+    }
+  
+    unblockUser(userId: number): Observable<any> {
+      return this.http.post<any>(`${this.adminUrl}/unblock/${userId}`, {});
+    }
+    getUsers(): Observable<any[]> {
+      return this.http.get<any[]>(`${this.userUrl}/allusers`);
     }
   }

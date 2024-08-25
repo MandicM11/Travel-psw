@@ -69,4 +69,19 @@ public class UsersController : ControllerBase
         return Ok(recommendations);
     }
 
+    [HttpGet("allusers")]
+    public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+    {
+        try
+        {
+            var users = await _userService.GetAllUsersAsync();
+            return Ok(users);
+        }
+        catch (Exception ex)
+        {
+            // Log exception or handle it as needed
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
 }

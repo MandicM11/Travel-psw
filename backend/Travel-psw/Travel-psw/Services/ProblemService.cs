@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Travel_psw.Models;
 using Travel_psw.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace Travel_psw.Services
 {
@@ -35,11 +38,12 @@ namespace Travel_psw.Services
             {
                 ProblemId = problem.Id,
                 Title = title,
-                Description = description
+                Description = description,
+                EventType = nameof(ProblemReportedEvent)
             };
             await _eventStore.SaveEventAsync(problemReportedEvent);
 
-            // Pozivanje metode za obaveštavanje autora
+            // Pozivanje metode za obaveštavanje autora ture
             NotifyAuthor(problem);
 
             return problem;
@@ -57,7 +61,8 @@ namespace Travel_psw.Services
             var problemResolvedEvent = new ProblemResolvedEvent
             {
                 ProblemId = problem.Id,
-                ResolvedAt = DateTime.UtcNow
+                ResolvedAt = DateTime.UtcNow,
+                EventType = nameof(ProblemResolvedEvent)
             };
             await _eventStore.SaveEventAsync(problemResolvedEvent);
 
@@ -77,7 +82,8 @@ namespace Travel_psw.Services
 
             var problemSentForReviewEvent = new ProblemSentForReviewEvent
             {
-                ProblemId = problem.Id
+                ProblemId = problem.Id,
+                EventType = nameof(ProblemSentForReviewEvent)
             };
             await _eventStore.SaveEventAsync(problemSentForReviewEvent);
 
@@ -94,7 +100,8 @@ namespace Travel_psw.Services
 
             var problemRejectedEvent = new ProblemRejectedEvent
             {
-                ProblemId = problem.Id
+                ProblemId = problem.Id,
+                EventType = nameof(ProblemRejectedEvent)
             };
             await _eventStore.SaveEventAsync(problemRejectedEvent);
 
@@ -137,15 +144,48 @@ namespace Travel_psw.Services
             return problem;
         }
 
+        public async Task<IEnumerable<Problem>> GetAllProblemsAsync()
+        {
+            return await _context.Problems.ToListAsync();
+        }
+
+        public async Task<Problem> GetProblemByIdAsync(int problemId)
+        {
+            return await _context.Problems.FindAsync(problemId);
+        }
+
+        public async Task UpdateProblemStatusAsync(int problemId, ProblemStatus status)
+        {
+            var problem = await _context.Problems.FindAsync(problemId);
+            if (problem == null) return;
+
+            problem.Status = status;
+            if (status == ProblemStatus.Resolved)
+            {
+                problem.ResolvedAt = DateTime.UtcNow;
+            }
+            await _context.SaveChangesAsync();
+
+            var problemStatusChangedEvent = new ProblemStatusChangedEvent
+            {
+                ProblemId = problem.Id,
+                NewStatus = status,
+                OccurredAt = DateTime.UtcNow,
+                EventType = nameof(ProblemStatusChangedEvent)
+            };
+            await _eventStore.SaveEventAsync(problemStatusChangedEvent);
+        }
+
         private void NotifyAuthor(Problem problem)
         {
             // Implementacija obaveštavanja autora ture
+            // Primer: slanje emaila ili poruke
         }
 
         private void NotifyTourist(Problem problem)
         {
             // Implementacija obaveštavanja turiste
+            // Primer: slanje emaila ili poruke
         }
     }
-
 }
