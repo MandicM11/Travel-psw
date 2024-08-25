@@ -43,5 +43,10 @@ namespace Travel_psw.Models
 
         public int Points { get; set; } = 0;
         public bool IsAwarded { get; set; } = false;
+
+        public bool IsBlocked { get; set; } = false;
+        public bool IsMalicious { get; set; } = false;
+        public int InvalidReportCount { get; set; } = 0; // Broj prijavljenih problema koji su odbačeni
+        public int UnresolvedReviewCount { get; set; } = 0; // Broj neresenih reviews za korisnika 
     }
 }
