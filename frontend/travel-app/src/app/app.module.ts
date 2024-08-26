@@ -34,7 +34,8 @@ const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'map', component: TourMapComponent },
   { path: 'user-management', component: UserManagementComponent },
-  { path: 'report-issues', component: ReportProblemsComponent }
+  { path: 'report-issues', component: ReportProblemsComponent },
+  { path: 'reported-problems', component: ReportedProblemsComponent }
   
 ];
 

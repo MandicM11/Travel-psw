@@ -46,7 +46,7 @@ namespace Travel_psw.Controllers
             try
             {
                 await _adminService.UnblockUserAsync(id);
-                return Ok("User has been unblocked successfully.");
+                return Ok(new { message = "User has been blocked successfully." });
             }
             catch (Exception ex)
             {
@@ -61,7 +61,7 @@ namespace Travel_psw.Controllers
             try
             {
                 await _adminService.UpdateUserStatusAsync(id);
-                return Ok("User status has been updated successfully.");
+                return Ok(new { message = "User has been unblocked successfully." });
             }
             catch (Exception ex)
             {

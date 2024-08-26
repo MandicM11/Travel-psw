@@ -74,11 +74,11 @@
     }
 
     blockUser(userId: number): Observable<any> {
-      return this.http.post<any>(`${this.adminUrl}/block/${userId}`, {});
+      return this.http.post<any>(`${this.adminUrl}/block-user/${userId}`, {});
     }
   
     unblockUser(userId: number): Observable<any> {
-      return this.http.post<any>(`${this.adminUrl}/unblock/${userId}`, {});
+      return this.http.post<any>(`${this.adminUrl}/unblock-user/${userId}`, {});
     }
     getUsers(): Observable<any[]> {
       return this.http.get<any[]>(`${this.userUrl}/allusers`);

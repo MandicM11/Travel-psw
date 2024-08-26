@@ -61,10 +61,12 @@ public class AdminService
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
 
+
             // Send email notification to the user
             string subject = "Your account has been blocked";
             string body = "Your account has been blocked due to malicious behavior. Please contact support if you believe this is a mistake.";
             await _emailService.SendEmailAsync(user.Email, subject, body);
+           
         }
     }
 
