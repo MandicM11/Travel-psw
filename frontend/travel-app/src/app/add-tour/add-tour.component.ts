@@ -20,6 +20,7 @@ export class AddTourComponent {
 
   constructor(private http: HttpClient, private router: Router) { }
 //this does not work
+//or does it
   addTour(): void {
     this.http.post(this.apiUrl, this.tour).subscribe((response: any) => {
       this.router.navigate([`/tours/${response.id}`]);
