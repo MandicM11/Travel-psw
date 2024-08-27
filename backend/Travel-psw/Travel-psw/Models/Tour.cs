@@ -39,6 +39,9 @@ namespace Travel_psw.Models
         public List<Sale> Sales { get; set; } = new List<Sale>();
         [JsonIgnore]
         public User Author { get; set; } // Navigaciono svojstvo za User
+
+        public ICollection<Purchase> Purchases { get; set; }
+        public ICollection<Problem> Problems { get; set; }
     }
 
     public enum TourStatus
@@ -47,4 +50,15 @@ namespace Travel_psw.Models
         Published,
         Archived
     }
+
+    public class Purchase
+    {
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public int TourId { get; set; }
+        public DateTime PurchaseDate { get; set; }
+        public Tour Tour { get; set; }
+        public User User { get; set; }
+    }
+
 }

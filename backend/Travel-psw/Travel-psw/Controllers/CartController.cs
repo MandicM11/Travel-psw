@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Travel_psw.Data;
 using Travel_psw.Models;
 using Travel_psw.Services;
 
@@ -17,14 +19,18 @@ public class CartController: ControllerBase
         private readonly EmailService _emailService;
         private readonly ITourRepository _tourRepository;
         private readonly ISaleRepository _saleRepository;
+        private readonly ApplicationDbContext _context;
 
         public CartController(
             CartService cartService,
             EmailService emailService,
             ITourRepository tourRepository,
-            ISaleRepository saleRepository)
+            ISaleRepository saleRepository,
+            ApplicationDbContext context
+            )
         {
             _cartService = cartService;
+            _context = context;
             _emailService = emailService;
             _tourRepository = tourRepository;
             _saleRepository = saleRepository;
@@ -95,8 +101,17 @@ public class CartController: ControllerBase
                         UserId = cart.UserId,
                         SaleDate = DateTime.UtcNow
                     };
+                    var purchase = new Purchase
+                    {
+                        UserId = cart.UserId,
+                        TourId = item.TourId,
+                        PurchaseDate = DateTime.UtcNow,
+                        Tour = item.Tour,
+                        User = cart.User
+                    };
 
                     await _saleRepository.AddSaleAsync(sale);
+                    await _context.Purchases.AddAsync(purchase);
                 }
 
                 var tours = cart.Items.Select(i => new { i.Tour.Title, i.Quantity }).ToList();

@@ -1,0 +1,53 @@
+.author-problems-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .problems-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .problems-table th,
+  .problems-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .problems-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .problems-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .problems-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .btn-fix,
+  .btn-discard {
+    padding: 6px 12px;
+    margin-right: 5px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .btn-fix {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .btn-discard {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .btn-fix:hover,
+  .btn-discard:hover {
+    opacity: 0.8;
+  }
+  

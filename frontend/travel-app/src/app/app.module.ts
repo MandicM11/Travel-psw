@@ -16,7 +16,12 @@ import { AddKeyPointComponent } from './add-keypoint/add-keypoint.component';
 import { TourListComponent } from './tour-list/tour-list.component';
 import { TourMapComponent } from './tour-map/tour-map.component';
 import { CartComponent } from './cart/cart.component';
-
+import { ReportProblemsComponent } from './report-problems/report-problems.component';
+import { UserManagementComponent } from './user-management/user-management.component';
+import { ReportedProblemsComponent } from './reported-problems/reported-problems.component';
+import { PurchasedToursComponent } from './purchased-tours/purchased-tours.component';
+import { RoleGuard } from './guards/role.service';
+import { AuthorProblemsComponent } from './author-problems/author-problems.component';
 
 
 const routes: Routes = [
@@ -26,10 +31,14 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'tours/:id', component: TourDetailComponent },
   { path: 'add-tour', component: AddTourComponent },
-  { path: 'tours/:id/add-keypoint', component: AddKeyPointComponent },
-  { path: 'cart', component: CartComponent },
+  { path: 'cart', component: CartComponent, },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'map', component: TourMapComponent }
+  { path: 'user-management', component: UserManagementComponent },
+  { path: 'report-issues', component: ReportProblemsComponent },
+  { path: 'reported-problems', component: ReportedProblemsComponent  },
+  { path: 'purchased-tours', component: PurchasedToursComponent},
+  { path: 'author-problems', component: AuthorProblemsComponent  }
+  
   
 ];
 
@@ -44,7 +53,12 @@ const routes: Routes = [
     AddKeyPointComponent,
     TourListComponent,
     TourMapComponent,
-    CartComponent
+    CartComponent,
+    ReportProblemsComponent,
+    UserManagementComponent,
+    ReportedProblemsComponent,
+    PurchasedToursComponent,
+    AuthorProblemsComponent
     
   ],
   imports: [

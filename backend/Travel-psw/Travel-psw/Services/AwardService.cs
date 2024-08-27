@@ -50,6 +50,9 @@ namespace Travel_psw.Services
                 .Where(u => u.Role == UserRole.Author && u.IsAwarded)
                 .ToListAsync();
         }
+
+        
+
     }
 
 }

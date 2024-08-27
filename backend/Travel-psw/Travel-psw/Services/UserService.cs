@@ -61,6 +61,19 @@ namespace Travel_psw.Services
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.Username == username && u.Password == hashedPassword);
 
+            if (user == null)
+            {
+                // User does not exist or incorrect password
+                throw new UnauthorizedAccessException("Incorrect login credentials.");
+                
+            }
+
+            if (user.IsBlocked)
+            {
+                // User is blocked
+                throw new UnauthorizedAccessException("Your account has been blocked.");
+            }
+
             return user;
         }
 
@@ -128,6 +141,12 @@ namespace Travel_psw.Services
 
             return null;
         }
+
+        public async Task<List<User>> GetAllUsersAsync()
+        {
+            return await _context.Users.ToListAsync();
+        }
+
 
     }
 }

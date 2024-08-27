@@ -1,7 +1,7 @@
   import { Injectable } from '@angular/core';
   import { HttpClient, HttpHeaders } from '@angular/common/http';
-  import { Observable } from 'rxjs';
-
+  import { Observable, of } from 'rxjs';
+  import { map, tap, catchError } from 'rxjs/operators';
   @Injectable({
     providedIn: 'root'
   })
@@ -9,6 +9,8 @@
     private registerUrl = 'http://localhost:5249/api/Auth/register';
     private loginUrl = 'http://localhost:5249/api/Auth/login';
     private cartUrl = 'http://localhost:5249/api/cart';
+    private adminUrl = 'http://localhost:5249/api/admin';
+    private userUrl = 'http://localhost:5249/api/users';
 
     constructor(private http: HttpClient) {}
 
@@ -70,4 +72,29 @@
     getUserById(userId: number): Observable<any> {
       return this.http.get<any>(`${this.loginUrl}/user/${userId}`);
     }
+
+    blockUser(userId: number): Observable<any> {
+      return this.http.post<any>(`${this.adminUrl}/block-user/${userId}`, {});
+    }
+  
+    unblockUser(userId: number): Observable<any> {
+      return this.http.post<any>(`${this.adminUrl}/unblock-user/${userId}`, {});
+    }
+    getUsers(): Observable<any[]> {
+      return this.http.get<any[]>(`${this.userUrl}/allusers`);
+    }
+    getUserRole(): Observable<string | null> {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const payload = JSON.parse(atob(token.split('.')[1]));
+          console.log('Token payload:', payload); // Ispisuje celokupan payload za debagovanje
+          return of(payload.role); // Koristi 'role' iz payload-a
+        } catch (error) {
+          console.error('Error decoding token', error);
+        }
+      }
+      return of(null); // Ako nema tokena, vratite null
+    }
+
   }

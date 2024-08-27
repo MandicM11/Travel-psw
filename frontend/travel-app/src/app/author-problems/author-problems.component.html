@@ -1,0 +1,35 @@
+<div class="author-problems-container">
+    <h2>Problems on My Tours</h2>
+    
+    <div *ngIf="problems.length === 0">
+      <p>No reported problems on your tours.</p>
+    </div>
+    
+    <div *ngIf="problems.length > 0">
+      <table class="problems-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Created At</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let problem of problems">
+            <td>{{ problem.id }}</td>
+            <td>{{ problem.title }}</td>
+            <td>{{ problem.description }}</td>
+            <td>{{ problem.status }}</td>
+            <td>{{ problem.createdAt | date:'short' }}</td>
+            <td>
+              <button (click)="fixTour(problem.id)">Fix Tour</button>
+              <button (click)="discardProblem(problem.id)">Discard Problem</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
