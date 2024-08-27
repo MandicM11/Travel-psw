@@ -23,4 +23,12 @@ export class ReportService {
   updateProblemStatus(problemId: number, status: string): Observable<any> {
     return this.http.put<Problem>(`${this.apiUrl}/problems/${problemId}/status`, { status });
   }
+
+  getProblemsByAuthorId(authorId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/author/${authorId}/problems`);
+  }
+
+  discardProblem(problemId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${problemId}/discard`, {});
+  }
 }

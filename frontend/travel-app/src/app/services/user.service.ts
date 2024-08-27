@@ -1,7 +1,7 @@
   import { Injectable } from '@angular/core';
   import { HttpClient, HttpHeaders } from '@angular/common/http';
-  import { Observable } from 'rxjs';
-
+  import { Observable, of } from 'rxjs';
+  import { map, tap, catchError } from 'rxjs/operators';
   @Injectable({
     providedIn: 'root'
   })
@@ -83,4 +83,18 @@
     getUsers(): Observable<any[]> {
       return this.http.get<any[]>(`${this.userUrl}/allusers`);
     }
+    getUserRole(): Observable<string | null> {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const payload = JSON.parse(atob(token.split('.')[1]));
+          console.log('Token payload:', payload); // Ispisuje celokupan payload za debagovanje
+          return of(payload.role); // Koristi 'role' iz payload-a
+        } catch (error) {
+          console.error('Error decoding token', error);
+        }
+      }
+      return of(null); // Ako nema tokena, vratite null
+    }
+
   }

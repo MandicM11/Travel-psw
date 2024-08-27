@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ReportService } from '../services/report.service'; // Proverite putanju do vašeg servisa
+import { ReportService } from '../services/report.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-report-problems',
@@ -15,7 +16,13 @@ export class ReportProblemsComponent {
     description: ''
   };
 
-  constructor(private reportService: ReportService) { }
+  constructor(private route: ActivatedRoute, private router: Router,private reportService: ReportService) {
+    // Preuzmite parametre iz URL-a
+    this.route.queryParams.subscribe(params => {
+      this.report.tourId = +params['tourId'];
+      this.report.touristId = +params['touristId'];
+    });
+  }
 
   onSubmit(form: NgForm): void {
     if (form.valid) {

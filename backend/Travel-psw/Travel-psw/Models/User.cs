@@ -41,6 +41,8 @@ namespace Travel_psw.Models
         public ICollection<Tour> Tours { get; set; } = new List<Tour>();
         public ICollection<Sale> Sales { get; set; } = new List<Sale>();
 
+        public ICollection<Purchase> Purchases { get; set; } = new List<Purchase>();
+
         public int Points { get; set; } = 0;
         public bool IsAwarded { get; set; } = false;
 

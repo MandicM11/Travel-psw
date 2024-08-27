@@ -176,6 +176,35 @@ namespace Travel_psw.Services
             await _eventStore.SaveEventAsync(problemStatusChangedEvent);
         }
 
+        public async Task<IEnumerable<Problem>> GetProblemsByAuthorIdAsync(int authorId)
+        {
+            return await _context.Problems
+                .Include(p => p.Tour)  
+                .Where(p => p.Tour.AuthorId == authorId)
+                .ToListAsync();
+        }
+
+
+        public async Task<Problem> DiscardProblemAsync(int problemId)
+        {
+            var problem = await _context.Problems.FindAsync(problemId);
+            if (problem == null) return null;
+
+            problem.Status = ProblemStatus.UnderReview;
+            await _context.SaveChangesAsync();
+
+            var problemDiscardedEvent = new ProblemSentForReviewEvent
+            {
+                ProblemId = problem.Id,
+                EventType = nameof(ProblemSentForReviewEvent)
+            };
+            await _eventStore.SaveEventAsync(problemDiscardedEvent);
+
+            return problem;
+        }
+
+
+
         private void NotifyAuthor(Problem problem)
         {
             // Implementacija obaveštavanja autora ture

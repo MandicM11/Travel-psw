@@ -19,7 +19,9 @@ import { CartComponent } from './cart/cart.component';
 import { ReportProblemsComponent } from './report-problems/report-problems.component';
 import { UserManagementComponent } from './user-management/user-management.component';
 import { ReportedProblemsComponent } from './reported-problems/reported-problems.component';
-
+import { PurchasedToursComponent } from './purchased-tours/purchased-tours.component';
+import { RoleGuard } from './guards/role.service';
+import { AuthorProblemsComponent } from './author-problems/author-problems.component';
 
 
 const routes: Routes = [
@@ -28,14 +30,15 @@ const routes: Routes = [
   { path: 'tours', component: TourListComponent },
   { path: 'login', component: LoginComponent },
   { path: 'tours/:id', component: TourDetailComponent },
-  { path: 'add-tour', component: AddTourComponent },
-  { path: 'tours/:id/add-keypoint', component: AddKeyPointComponent },
-  { path: 'cart', component: CartComponent },
+  { path: 'add-tour', component: AddTourComponent, canActivate:[RoleGuard], data: {expectedRole:['Author']} },
+  { path: 'cart', component: CartComponent, canActivate:[RoleGuard], data: {expectedRole:['User']} },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'map', component: TourMapComponent },
-  { path: 'user-management', component: UserManagementComponent },
-  { path: 'report-issues', component: ReportProblemsComponent },
-  { path: 'reported-problems', component: ReportedProblemsComponent }
+  { path: 'user-management', component: UserManagementComponent, canActivate:[RoleGuard], data: {expectedRole:'Admin'} },
+  { path: 'report-issues', component: ReportProblemsComponent, canActivate:[RoleGuard], data: {expectedRole:['User']} },
+  { path: 'reported-problems', component: ReportedProblemsComponent, canActivate:[RoleGuard], data: {expectedRole:['Admin','Author']} },
+  { path: 'purchased-tours', component: PurchasedToursComponent, canActivate:[RoleGuard], data: {expectedRole:['User']} },
+  { path: 'author-problems', component: AuthorProblemsComponent, canActivate:[RoleGuard], data: {expectedRole:['Author']} }
+  
   
 ];
 
@@ -53,7 +56,9 @@ const routes: Routes = [
     CartComponent,
     ReportProblemsComponent,
     UserManagementComponent,
-    ReportedProblemsComponent
+    ReportedProblemsComponent,
+    PurchasedToursComponent,
+    AuthorProblemsComponent
     
   ],
   imports: [

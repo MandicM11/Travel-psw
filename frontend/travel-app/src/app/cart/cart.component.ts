@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from '../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -22,7 +23,7 @@ export class CartComponent implements OnInit {
   errorMessage: string | null = null;
   apiUrl = 'http://localhost:5249/api/cart'; // Prilagodite prema vašem API
 
-  constructor(private http: HttpClient, private userService: UserService) { }
+  constructor(private http: HttpClient, private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadCart();
@@ -117,6 +118,7 @@ export class CartComponent implements OnInit {
         this.cart.items = [];
         this.cart.totalPrice = 0; // Očistite ukupnu cenu nakon kupovine
         setTimeout(() => this.successMessage = null, 3000);
+        this.router.navigate(['/purchased-tours']);
       },
       error => {
         this.errorMessage = 'Error confirming purchase. Please try again.';

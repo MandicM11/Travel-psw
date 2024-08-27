@@ -10,6 +10,8 @@
         public DateTime? ResolvedAt { get; set; }
         public int TourId { get; set; }
         public int TouristId { get; set; }
+
+        public Tour Tour { get; set; }
     }
 
     public enum ProblemStatus

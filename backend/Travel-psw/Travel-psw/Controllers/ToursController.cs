@@ -159,4 +159,22 @@ public class ToursController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
+
+    [HttpGet("user/{userId}")]
+    public async Task<IActionResult> GetPurchasedToursByUser(int userId)
+    {
+        try
+        {
+            var purchasedTours = await _tourService.GetPurchasedToursByUserAsync(userId);
+            if (purchasedTours == null || !purchasedTours.Any())
+                return NotFound("No purchased tours found for this user.");
+
+            return Ok(purchasedTours);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
 }

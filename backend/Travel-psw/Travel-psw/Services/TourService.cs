@@ -52,6 +52,16 @@ public class TourService
         return tour;
     }
 
+    public async Task<List<Tour>> GetPurchasedToursByUserAsync(int userId)
+    {
+        return await _context.Tours
+            .Where(t => t.Purchases.Any(p => p.UserId == userId))
+            .ToListAsync();
+    }
+
+
+
+
 
 
     public async Task<KeyPoint> AddKeyPointAsync(int tourId, KeyPoint keyPoint, IFormFile? image)

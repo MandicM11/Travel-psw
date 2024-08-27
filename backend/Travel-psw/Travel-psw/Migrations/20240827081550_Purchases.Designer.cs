@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Travel_psw.Data;
@@ -12,9 +13,11 @@ using Travel_psw.Data;
 namespace Travel_psw.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240827081550_Purchases")]
+    partial class Purchases
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,8 +143,6 @@ namespace Travel_psw.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TourId");
 
                     b.ToTable("Problems", (string)null);
                 });
@@ -406,17 +407,6 @@ namespace Travel_psw.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Travel_psw.Models.Problem", b =>
-                {
-                    b.HasOne("Travel_psw.Models.Tour", "Tour")
-                        .WithMany("Problems")
-                        .HasForeignKey("TourId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Tour");
-                });
-
             modelBuilder.Entity("Travel_psw.Models.Purchase", b =>
                 {
                     b.HasOne("Travel_psw.Models.Tour", "Tour")
@@ -474,8 +464,6 @@ namespace Travel_psw.Migrations
             modelBuilder.Entity("Travel_psw.Models.Tour", b =>
                 {
                     b.Navigation("KeyPoints");
-
-                    b.Navigation("Problems");
 
                     b.Navigation("Purchases");
 

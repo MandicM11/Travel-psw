@@ -3,6 +3,8 @@
     using Microsoft.AspNetCore.Mvc;
     using Travel_psw.Models;
     using Travel_psw.Services;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     [ApiController]
     [Route("api/[controller]")]
@@ -62,6 +64,8 @@
                 return NotFound();
             return Ok(problem);
         }
+
+        // Endpoint za dobijanje svih problema
         [HttpGet("problems")]
         public async Task<ActionResult<IEnumerable<Problem>>> GetProblems()
         {
@@ -69,11 +73,30 @@
             return Ok(problems);
         }
 
+        // Endpoint za ažuriranje statusa problema
         [HttpPut("problems/{id}/status")]
         public async Task<IActionResult> UpdateProblemStatus(int id, [FromBody] ProblemStatusUpdateDto statusUpdate)
         {
             await _problemService.UpdateProblemStatusAsync(id, statusUpdate.Status);
             return NoContent();
+        }
+
+        // Endpoint za dobijanje problema po autoru
+        [HttpGet("author/{authorId}/problems")]
+        public async Task<ActionResult<IEnumerable<Problem>>> GetProblemsByAuthorId(int authorId)
+        {
+            var problems = await _problemService.GetProblemsByAuthorIdAsync(authorId);
+            return Ok(problems);
+        }
+
+        // Endpoint za odbacivanje problema (menjanje statusa na UnderReview)
+        [HttpPost("{id}/discard")]
+        public async Task<IActionResult> DiscardProblem(int id)
+        {
+            var problem = await _problemService.DiscardProblemAsync(id);
+            if (problem == null)
+                return NotFound();
+            return Ok(problem);
         }
     }
 
@@ -89,6 +112,4 @@
     {
         public ProblemStatus Status { get; set; }
     }
-
-
 }
