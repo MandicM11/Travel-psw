@@ -52,6 +52,16 @@ public class TourService
         return tour;
     }
 
+    public async Task<List<Tour>> GetPurchasedToursByUserAsync(int userId)
+    {
+        return await _context.Tours
+            .Where(t => t.Purchases.Any(p => p.UserId == userId))
+            .ToListAsync();
+    }
+
+
+
+
 
 
     public async Task<KeyPoint> AddKeyPointAsync(int tourId, KeyPoint keyPoint, IFormFile? image)
@@ -124,7 +134,7 @@ public class TourService
         await _context.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<Tour>> GetToursByStatusAsync(TourStatus? status = null)
+    public async Task<IEnumerable<Tour>> GetToursByStatusAsync(TourStatus? status = null, bool? isRewarded = null)
     {
         var query = _context.Tours.Include(t => t.KeyPoints).AsQueryable();
 
@@ -133,8 +143,26 @@ public class TourService
             query = query.Where(t => t.Status == status.Value);
         }
 
+        if (isRewarded.HasValue)
+        {
+            query = query.Where(t => t.Author.IsAwarded == isRewarded.Value);
+        }
         return await query.ToListAsync();
     }
+
+    /*public async Task<List<Tour>> GetToursByAwardAsync(string status = null, bool? isRewarded = null)
+    {
+        var query = _context.Tours.AsQueryable();
+
+
+        if (isRewarded.HasValue)
+        {
+            query = query.Where(t => t.Author.IsAwarded == isRewarded.Value);
+        }
+
+        return await query.ToListAsync();
+    }*/
+
 
     public async Task<IEnumerable<Tour>> GetToursByAuthorAsync(int authorId)
     {

@@ -1,0 +1,16 @@
+<div *ngIf="purchasedTours.length > 0; else noTours">
+    <h2>Your Purchased Tours</h2>
+    <div *ngFor="let tour of purchasedTours" class="tour-card">
+      <h3>{{ tour.title }}</h3>
+      <p><strong>Description:</strong> {{ tour.description }}</p>
+      <p><strong>Price:</strong> ${{ tour.price }}</p>
+      <p><strong>Difficulty:</strong> {{ tour.difficulty }}</p>
+      <p><strong>Category:</strong> {{ tour.category }}</p>
+      <button (click)="reportIssue(tour.id)">Report Issue</button>
+    </div>
+  </div>
+  
+  <ng-template #noTours>
+    <p>You have not purchased any tours yet.</p>
+  </ng-template>
+  

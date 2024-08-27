@@ -131,10 +131,20 @@ namespace Travel_psw.Services
                     SaleDate = DateTime.UtcNow
                 };
 
+                var purchase = new Purchase
+                {
+                    UserId = cart.UserId,
+                    TourId = item.TourId,
+                    PurchaseDate = DateTime.UtcNow,
+                    Tour = item.Tour,
+                    User = cart.User
+                };
+
                 try
                 {
                     _logger.LogInformation("Creating sale: {@Sale}", newSale);
                     await _saleRepository.AddSaleAsync(newSale);
+                    await _context.Purchases.AddAsync(purchase);
                 }
                 catch (Exception ex)
                 {

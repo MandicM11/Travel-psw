@@ -108,6 +108,96 @@ namespace Travel_psw.Migrations
                     b.ToTable("KeyPoints");
                 });
 
+            modelBuilder.Entity("Travel_psw.Models.Problem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ResolvedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("TourId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TouristId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TourId");
+
+                    b.ToTable("Problems", (string)null);
+                });
+
+            modelBuilder.Entity("Travel_psw.Models.ProblemEvent", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("EventType")
+                        .IsRequired()
+                        .HasMaxLength(34)
+                        .HasColumnType("character varying(34)");
+
+                    b.Property<DateTime>("OccurredAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("ProblemId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProblemEvents", (string)null);
+
+                    b.HasDiscriminator<string>("EventType").HasValue("ProblemEvent");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("Travel_psw.Models.Purchase", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("PurchaseDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("TourId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TourId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Purchases");
+                });
+
             modelBuilder.Entity("Travel_psw.Models.Sale", b =>
                 {
                     b.Property<int>("Id")
@@ -200,7 +290,16 @@ namespace Travel_psw.Migrations
                         .IsRequired()
                         .HasColumnType("text[]");
 
+                    b.Property<int>("InvalidReportCount")
+                        .HasColumnType("integer");
+
                     b.Property<bool>("IsAwarded")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsBlocked")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsMalicious")
                         .HasColumnType("boolean");
 
                     b.Property<string>("LastName")
@@ -217,6 +316,9 @@ namespace Travel_psw.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("integer");
 
+                    b.Property<int>("UnresolvedReviewCount")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("text");
@@ -224,6 +326,45 @@ namespace Travel_psw.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Travel_psw.Models.ProblemRejectedEvent", b =>
+                {
+                    b.HasBaseType("Travel_psw.Models.ProblemEvent");
+
+                    b.HasDiscriminator().HasValue("ProblemRejectedEvent");
+                });
+
+            modelBuilder.Entity("Travel_psw.Models.ProblemReportedEvent", b =>
+                {
+                    b.HasBaseType("Travel_psw.Models.ProblemEvent");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasDiscriminator().HasValue("ProblemReportedEvent");
+                });
+
+            modelBuilder.Entity("Travel_psw.Models.ProblemResolvedEvent", b =>
+                {
+                    b.HasBaseType("Travel_psw.Models.ProblemEvent");
+
+                    b.Property<DateTime>("ResolvedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasDiscriminator().HasValue("ProblemResolvedEvent");
+                });
+
+            modelBuilder.Entity("Travel_psw.Models.ProblemSentForReviewEvent", b =>
+                {
+                    b.HasBaseType("Travel_psw.Models.ProblemEvent");
+
+                    b.HasDiscriminator().HasValue("ProblemSentForReviewEvent");
                 });
 
             modelBuilder.Entity("Travel_psw.Models.Cart", b =>
@@ -265,6 +406,36 @@ namespace Travel_psw.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Travel_psw.Models.Problem", b =>
+                {
+                    b.HasOne("Travel_psw.Models.Tour", "Tour")
+                        .WithMany("Problems")
+                        .HasForeignKey("TourId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Tour");
+                });
+
+            modelBuilder.Entity("Travel_psw.Models.Purchase", b =>
+                {
+                    b.HasOne("Travel_psw.Models.Tour", "Tour")
+                        .WithMany("Purchases")
+                        .HasForeignKey("TourId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Travel_psw.Models.User", "User")
+                        .WithMany("Purchases")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Tour");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Travel_psw.Models.Sale", b =>
                 {
                     b.HasOne("Travel_psw.Models.Tour", "Tour")
@@ -304,11 +475,17 @@ namespace Travel_psw.Migrations
                 {
                     b.Navigation("KeyPoints");
 
+                    b.Navigation("Problems");
+
+                    b.Navigation("Purchases");
+
                     b.Navigation("Sales");
                 });
 
             modelBuilder.Entity("Travel_psw.Models.User", b =>
                 {
+                    b.Navigation("Purchases");
+
                     b.Navigation("Sales");
 
                     b.Navigation("Tours");

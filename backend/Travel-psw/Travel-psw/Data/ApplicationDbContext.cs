@@ -11,6 +11,9 @@ namespace Travel_psw.Data
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Sale> Sales { get; set; }
+        public DbSet<Purchase> Purchases { get; set; }  
+        public DbSet<Problem> Problems { get; set; }
+        public DbSet<ProblemEvent> ProblemEvents { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -74,7 +77,34 @@ namespace Travel_psw.Data
                 .HasForeignKey(s => s.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            
+            modelBuilder.Entity<Purchase>()
+            .HasOne(p => p.Tour)
+            .WithMany(t => t.Purchases)
+            .HasForeignKey(p => p.TourId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Purchase>()
+                .HasOne(p => p.User)
+                .WithMany(u => u.Purchases)
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Problem>()
+                .HasOne(p => p.Tour)           
+                .WithMany(t => t.Problems)     
+                .HasForeignKey(p => p.TourId)  
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Problem>().ToTable("Problems");
+            modelBuilder.Entity<ProblemEvent>().ToTable("ProblemEvents");
+
+            modelBuilder.Entity<ProblemEvent>()
+            .HasDiscriminator<string>("EventType")
+            .HasValue<ProblemReportedEvent>("ProblemReportedEvent")
+            .HasValue<ProblemResolvedEvent>("ProblemResolvedEvent")
+            .HasValue<ProblemSentForReviewEvent>("ProblemSentForReviewEvent")
+            .HasValue<ProblemRejectedEvent>("ProblemRejectedEvent");
+
         }
     }
 }

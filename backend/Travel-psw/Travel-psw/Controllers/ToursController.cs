@@ -82,9 +82,9 @@ public class ToursController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetTours([FromQuery] TourStatus? status = null)
+    public async Task<IActionResult> GetTours([FromQuery] TourStatus? status, [FromQuery] bool? isRewarded)
     {
-        var tours = await _tourService.GetToursByStatusAsync(status);
+        var tours = await _tourService.GetToursByStatusAsync(status, isRewarded);
         return Ok(tours);
     }
 
@@ -159,4 +159,22 @@ public class ToursController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
+
+    [HttpGet("user/{userId}")]
+    public async Task<IActionResult> GetPurchasedToursByUser(int userId)
+    {
+        try
+        {
+            var purchasedTours = await _tourService.GetPurchasedToursByUserAsync(userId);
+            if (purchasedTours == null || !purchasedTours.Any())
+                return NotFound("No purchased tours found for this user.");
+
+            return Ok(purchasedTours);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+
 }

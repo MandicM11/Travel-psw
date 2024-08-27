@@ -10,6 +10,16 @@
   </select>
 </div>
 
+<div class="mb-3">
+  <label for="authorFilter" class="form-label">Filter by Author:</label>
+  <select id="authorFilter" class="form-select" (change)="onAuthorChange($event)">
+    <option value="all">All Authors</option>
+    <option value="awarded">Awarded Authors</option>
+    <option value="non-awarded">Non-Awarded Authors</option>
+  </select>
+</div>
+
+
 <div *ngIf="successMessage" class="alert alert-success mt-3" role="alert">
   {{ successMessage }}
 </div>

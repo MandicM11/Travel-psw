@@ -1,0 +1,47 @@
+<div class="reported-problems-container">
+    <h2>Reported Problems</h2>
+    
+    <div *ngIf="problems.length === 0">
+      <p>No reported problems available.</p>
+    </div>
+    
+    <div *ngIf="problems.length > 0">
+      <table class="problems-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Created At</th>
+            <th>Resolved At</th>
+            <th>Tour ID</th>
+            <th>Tourist ID</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let problem of problems">
+            <td>{{ problem.id }}</td>
+            <td>{{ problem.title }}</td>
+            <td>{{ problem.description }}</td>
+            <td>{{ problem.status }}</td>
+            <td>{{ problem.createdAt | date:'short' }}</td>
+            <td>{{ problem.resolvedAt ? (problem.resolvedAt | date:'short') : 'N/A' }}</td>
+            <td>{{ problem.tourId }}</td>
+            <td>{{ problem.touristId }}</td>
+            <td>
+                <select (change)="changeStatus(problem.id, $event)">
+                  <option [value]="problem.status">{{ problem.status }}</option>
+                  <option *ngIf="problem.status !== 'Resolved'" value="Resolved">Resolved</option>
+                  <option *ngIf="problem.status !== 'Pending'" value="Pending">Pending</option>
+                  <option *ngIf="problem.status !== 'In Progress'" value="In Progress">In Progress</option>
+                </select>
+              </td>
+              
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
