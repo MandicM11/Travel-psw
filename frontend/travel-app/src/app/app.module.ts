@@ -30,14 +30,14 @@ const routes: Routes = [
   { path: 'tours', component: TourListComponent },
   { path: 'login', component: LoginComponent },
   { path: 'tours/:id', component: TourDetailComponent },
-  { path: 'add-tour', component: AddTourComponent, canActivate:[RoleGuard], data: {expectedRole:['Author']} },
-  { path: 'cart', component: CartComponent, canActivate:[RoleGuard], data: {expectedRole:['User']} },
+  { path: 'add-tour', component: AddTourComponent },
+  { path: 'cart', component: CartComponent, },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'user-management', component: UserManagementComponent, canActivate:[RoleGuard], data: {expectedRole:'Admin'} },
-  { path: 'report-issues', component: ReportProblemsComponent, canActivate:[RoleGuard], data: {expectedRole:['User']} },
-  { path: 'reported-problems', component: ReportedProblemsComponent, canActivate:[RoleGuard], data: {expectedRole:['Admin','Author']} },
-  { path: 'purchased-tours', component: PurchasedToursComponent, canActivate:[RoleGuard], data: {expectedRole:['User']} },
-  { path: 'author-problems', component: AuthorProblemsComponent, canActivate:[RoleGuard], data: {expectedRole:['Author']} }
+  { path: 'user-management', component: UserManagementComponent },
+  { path: 'report-issues', component: ReportProblemsComponent },
+  { path: 'reported-problems', component: ReportedProblemsComponent  },
+  { path: 'purchased-tours', component: PurchasedToursComponent},
+  { path: 'author-problems', component: AuthorProblemsComponent  }
   
   
 ];
