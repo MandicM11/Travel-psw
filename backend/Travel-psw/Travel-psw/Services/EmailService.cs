@@ -19,7 +19,7 @@ public class EmailService
         {
             Port = int.Parse(smtpSettings["SmtpPort"]),
             Credentials = new NetworkCredential(smtpSettings["SmtpUser"], smtpSettings["SmtpPassword"]),
-            EnableSsl = true, // Uveri se da koristiš SSL/TLS
+            EnableSsl = true, 
         };
 
         var mailMessage = new MailMessage

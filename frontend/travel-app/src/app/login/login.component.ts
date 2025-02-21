@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
               if (carts.length > 0) {
                 localStorage.setItem('cartId', carts[0].id); // Postavi ID korpe u lokalnu memoriju
               }
-              this.router.navigate(['/']); // Redirektuj na glavnu stranicu ili drugu nakon uspešnog login-a
+              this.router.navigate(['/tours']); // Redirektuj na glavnu stranicu ili drugu nakon uspešnog login-a
             });
           }
         },
